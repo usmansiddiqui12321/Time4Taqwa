@@ -52,8 +52,8 @@ class _NavigatorPageState extends State<NavigatorPage> {
                 label: 'Home',
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.person),
-                label: 'Profile',
+                icon: Icon(Icons.money),
+                label: 'Donations',
               ),
               BottomNavigationBarItem(
                 icon: ImageIcon(AssetImage('assets/mosque.png')),
