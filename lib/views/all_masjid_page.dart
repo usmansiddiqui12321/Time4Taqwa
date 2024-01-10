@@ -49,23 +49,6 @@ class _MasjidScreenState extends State<MasjidScreen> {
         children: [
           const NeumorphicSearchField(),
           15.h.verticalSpace,
-          // Expanded(
-          //   child: ListTile(
-          //     title: AuthField(
-          //       title: "Search",
-          //       hintText: "🔍  Search restaurant by Name, Km, Rating ",
-          //       controller: searchController,
-          //       isPassword: false,
-          //       titleColor: Colors.transparent,
-          //     ),
-          //     trailing: IconButton(
-          //         icon: const Icon(
-          //           Icons.clear,
-          //           color: Colors.white,
-          //         ),
-          //         onPressed: () {}),
-          //   ),
-          // ),
           SizedBox(
             height: MediaQuery.of(context).size.height - kToolbarHeight,
             child: FutureBuilder(
