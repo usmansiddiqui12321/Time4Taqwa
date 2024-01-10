@@ -19,7 +19,7 @@ export 'package:flutter/services.dart';
 export 'package:time4taqwa/constants/custom_theme_data.dart';
 export 'package:time4taqwa/controllers/theme_controller.dart';
 export 'package:time4taqwa/utils/custom_drawer.dart';
-export 'package:time4taqwa/controllers/login_controller.dart';
+export 'package:time4taqwa/controllers/auth_controller.dart';
 export 'package:time4taqwa/views/views_widgets.dart';
 export 'package:time4taqwa/controllers/routing_controller.dart';
 export 'package:time4taqwa/views/auth/segregation_page.dart';

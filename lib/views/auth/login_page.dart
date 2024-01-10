@@ -48,7 +48,7 @@ class _LoginPageState extends State<LoginPage> {
                   style: TextStyle(fontSize: 14, color: AppColors.kGrey60),
                 ),
                 const SizedBox(height: 30),
-                // Email Field.
+
                 AuthField(
                   title: 'Email Address',
                   hintText: 'Enter your email address',
@@ -104,17 +104,23 @@ class _LoginPageState extends State<LoginPage> {
                   ],
                 ),
                 const SizedBox(height: 15),
-                PrimaryButton(
-                  color: AppColors.lightTextColor,
-                  onTap: () {
-                    Get.to(() => const NavigatorPage());
-                    if (_formKey.currentState!.validate()) {
-                      //! login
-                      authController.login();
-                    }
-                  },
-                  text: 'Sign In',
-                ),
+                GetBuilder(
+                    init: authController,
+                    builder: (controller) {
+                      return PrimaryButton(
+                        isloading: authController.loading,
+                        color: AppColors.lightTextColor,
+                        onTap: () {
+                          if (_formKey.currentState!.validate()) {
+                            //! login
+                            authController.login(
+                                email: _emailController.text,
+                                password: _passwordController.text);
+                          }
+                        },
+                        text: 'Sign In',
+                      );
+                    }),
                 const SizedBox(height: 20),
                 RichText(
                   text: TextSpan(

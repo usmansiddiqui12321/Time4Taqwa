@@ -124,7 +124,6 @@ class _HomePageState extends State<HomePage> {
             GridView.builder(
               itemCount: 3,
               shrinkWrap: true,
-              // padding: EdgeInsets.only(right: 10),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 3),
               itemBuilder: (context, index) {

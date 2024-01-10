@@ -1,4 +1,5 @@
 import 'package:time4taqwa/exportall.dart';
+
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
 
@@ -8,8 +9,10 @@ class SignUpPage extends StatefulWidget {
 
 class _SignUpPageState extends State<SignUpPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController cpasswordController = TextEditingController();
   final authController = Get.put(AuthController());
   bool isRemember = false;
   @override
@@ -30,7 +33,7 @@ class _SignUpPageState extends State<SignUpPage> {
           child: Center(
             child: Column(
               children: [
-                const Text('Let’s Sign you in',
+                const Text('Let’s Sign you Up',
                     style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
@@ -41,11 +44,27 @@ class _SignUpPageState extends State<SignUpPage> {
                   style: TextStyle(fontSize: 14, color: AppColors.kGrey60),
                 ),
                 const SizedBox(height: 30),
+                AuthField(
+                  title: 'Username',
+                  hintText: 'Enter your Name',
+                  controller: nameController,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Name is required';
+                    }
+                    return null;
+                  },
+                  keyboardType: TextInputType.name,
+                  textInputAction: TextInputAction.next,
+                ),
+                // Email Field.
+
+                const SizedBox(height: 15),
                 // Email Field.
                 AuthField(
                   title: 'Email Address',
                   hintText: 'Enter your email address',
-                  controller: _emailController,
+                  controller: emailController,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Email is required';
@@ -62,7 +81,25 @@ class _SignUpPageState extends State<SignUpPage> {
                 AuthField(
                   title: 'Password',
                   hintText: 'Enter your password',
-                  controller: _passwordController,
+                  controller: passwordController,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Password is required';
+                    } else if (value.length < 8) {
+                      return 'Password should be at least 8 characters long';
+                    }
+                    return null;
+                  },
+                  isPassword: true,
+                  keyboardType: TextInputType.visiblePassword,
+                  textInputAction: TextInputAction.done,
+                ),
+                const SizedBox(height: 15),
+                // Password Field.
+                AuthField(
+                  title: 'Confirm Password',
+                  hintText: 'Confirm password',
+                  controller: cpasswordController,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Password is required';
@@ -95,16 +132,25 @@ class _SignUpPageState extends State<SignUpPage> {
                   ],
                 ),
                 const SizedBox(height: 15),
-                PrimaryButton(
-                  color: AppColors.lightTextColor,
-                  onTap: () {
-                    if (_formKey.currentState!.validate()) {
-                      //! login
-                      authController.singup();
-                    }
-                  },
-                  text: 'Sign Up',
-                ),
+                GetBuilder(
+                    init: authController,
+                    builder: (controller) {
+                      return PrimaryButton(
+                        isloading: authController.loading,
+                        color: AppColors.lightTextColor,
+                        onTap: () {
+                          if (_formKey.currentState!.validate()) {
+                            //! login
+                            authController.signup(
+                                username: nameController.text,
+                                cpassword: cpasswordController.text,
+                                password: passwordController.text,
+                                email: emailController.text);
+                          }
+                        },
+                        text: 'Sign Up',
+                      );
+                    }),
                 const SizedBox(height: 20),
                 RichText(
                   text: TextSpan(

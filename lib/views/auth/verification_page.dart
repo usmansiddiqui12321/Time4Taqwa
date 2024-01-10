@@ -1,4 +1,3 @@
-
 import 'package:time4taqwa/exportall.dart';
 
 class VerificationScreen extends StatefulWidget {
@@ -71,6 +70,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
       floatingActionButton: Padding(
         padding: EdgeInsets.all(19.r),
         child: PrimaryButton(
+          isloading: false,
           color: AppColors.lightTextColor,
           onTap: () {
             Get.offAll(() => const LoginPage());

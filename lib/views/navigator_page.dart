@@ -1,4 +1,5 @@
 import 'package:time4taqwa/exportall.dart';
+import 'package:time4taqwa/views/all_masjid_page.dart';
 
 class NavigatorPage extends StatefulWidget {
   const NavigatorPage({super.key});
@@ -11,7 +12,8 @@ class _NavigatorPageState extends State<NavigatorPage> {
   final controller = Get.put(RoutingController());
   final List<Widget> screens = [
     const HomePage(),
-    const DonationPage(),
+    // const DonationPage(),
+    const MasjidScreen(),
     const MapRoutingPage()
   ];
   @override
@@ -35,7 +37,6 @@ class _NavigatorPageState extends State<NavigatorPage> {
                 const TextStyle(color: AppColors.lightTextColor),
             selectedIconTheme: const IconThemeData(color: Colors.white),
             selectedLabelStyle: const TextStyle(color: Colors.white),
-            // fixedColor: Colors.white,
             selectedItemColor: Colors.white,
             unselectedItemColor: AppColors.lightTextColor,
             showSelectedLabels: true,

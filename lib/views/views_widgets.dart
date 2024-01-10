@@ -1,5 +1,5 @@
-
 import '../exportall.dart';
+
 class AgreeTermsTextCard extends StatelessWidget {
   const AgreeTermsTextCard({super.key});
 
@@ -148,11 +148,13 @@ class PrimaryButton extends StatefulWidget {
   final double? borderRadius;
   final double? fontSize;
   final Color? color;
+  final bool isloading;
   const PrimaryButton({
     required this.onTap,
     required this.text,
     this.height,
     this.width,
+   required this.isloading,
     this.borderRadius,
     this.fontSize,
     this.color,
@@ -215,7 +217,9 @@ class _PrimaryButtonState extends State<PrimaryButton>
               color: widget.color ?? const Color(0xFFD1A661),
               borderRadius: BorderRadius.circular(widget.borderRadius ?? 20),
             ),
-            child: Text(
+            child:
+            widget.isloading ? CustomWidgets.isloading : 
+             Text(
               widget.text,
               style: TextStyle(
                   color: widget.color == null
@@ -360,7 +364,7 @@ class _AuthFieldState extends State<AuthField> {
           obscureText: widget.isPassword ? isObscure : false,
           textInputAction: widget.textInputAction,
           keyboardType: widget.keyboardType,
-
+          style: TextStyle(color: AppColors.primaryColor),
           decoration: InputDecoration(
             enabledBorder: OutlineInputBorder(
               borderSide: const BorderSide(

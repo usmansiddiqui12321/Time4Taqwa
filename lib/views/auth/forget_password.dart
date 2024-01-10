@@ -63,6 +63,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
       floatingActionButton: Padding(
         padding: EdgeInsets.all(19.r),
         child: PrimaryButton(
+          isloading: false,
           color: AppColors.lightTextColor,
           onTap: () {
             Get.to(() => const VerificationScreen());
