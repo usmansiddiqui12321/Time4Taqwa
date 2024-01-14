@@ -10,57 +10,73 @@ class MapRoutingPage extends StatefulWidget {
 }
 
 class _MapRoutingPageState extends State<MapRoutingPage> {
-  //! WE WILL NEED THIS DATA FROM BACKEND
+  final allmasjidcontroller = Get.put(AllMasjidController());
   List<Marker> markers = [];
-  List<Marker> multipleLocations = const [
-    Marker(
-      markerId: MarkerId("1"),
-      position: LatLng(24.937751837795904, 67.09412395096632),
-      infoWindow: InfoWindow(title: "My Postion"),
-    ),
-  ];
-  static CameraPosition initialposition = const CameraPosition(
-    target: LatLng(24.937751837795904, 67.09412395096632),
-    zoom: 14,
-  );
+
   Completer<GoogleMapController> mapcontroller = Completer();
+
   @override
   void initState() {
     super.initState();
-    markers.addAll(multipleLocations);
     loadData();
   }
 
   Future<void> loadData() async {
-    // Add your custom marker icon
     BitmapDescriptor customIcon = await BitmapDescriptor.fromAssetImage(
-      const ImageConfiguration(size: Size(48, 48)),
-      'assets/mosque_small.png', // Replace with your asset image path
+      const ImageConfiguration(),
+      'assets/mosque_small.png',
     );
-    getUserLocation().then((location) async {
-      if (kDebugMode) {
-        print('lat ${location.latitude} long ${location.longitude}');
+    final allMasjids = await allmasjidcontroller.getall();
+    // Clear existing markers
+    markers.clear();
+
+    // Add user location marker
+    final userLocation = await getUserLocation();
+    markers.add(
+      Marker(
+        infoWindow: const InfoWindow(title: "My Location"),
+        markerId: const MarkerId("0"),
+        position: LatLng(userLocation.latitude, userLocation.longitude),
+      ),
+    );
+
+    // Add markers from allMasjids data
+    if (allMasjids.data != null && allMasjids.data?.mosques != null) {
+      for (var mosque in allMasjids.data?.mosques ?? []) {
+        markers.add(
+          Marker(
+            icon: customIcon,
+            markerId: MarkerId(mosque.id.toString()),
+            position: LatLng(mosque.latitude, mosque.longitude),
+            infoWindow: InfoWindow(
+                title: mosque.mosqueName,
+                onTap: () {
+                  Get.to(() => MasjidDetailPage(
+                        masjidname: mosque.mosqueName,
+                        masjidtimings: mosque.timings,
+                      ));
+                }),
+            // Add other properties as needed
+          ),
+        );
       }
-      markers.add(
-        Marker(
-          icon: customIcon,
-          markerId: const MarkerId("6"),
-          position: LatLng(location.latitude, location.longitude),
-        ),
-      );
-      CameraPosition cameraPosition = CameraPosition(
-          target: LatLng(location.latitude, location.longitude), zoom: 14);
-      final GoogleMapController controller = await mapcontroller.future;
-      controller.animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
-      setState(() {});
-    });
+    }
+
+    // Move camera to a position based on user location
+    CameraPosition cameraPosition = CameraPosition(
+      target: LatLng(userLocation.latitude, userLocation.longitude),
+      zoom: 14,
+    );
+    final GoogleMapController controller = await mapcontroller.future;
+    controller.animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
+
+    setState(() {});
   }
 
   Future<Position> getUserLocation() async {
     await Geolocator.requestPermission()
         .then((value) {})
         .onError((error, stackTrace) {});
-
     return await Geolocator.getCurrentPosition();
   }
 
@@ -68,7 +84,10 @@ class _MapRoutingPageState extends State<MapRoutingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: GoogleMap(
-        initialCameraPosition: initialposition,
+        initialCameraPosition: const CameraPosition(
+          target: LatLng(0, 0), // Adjust as needed
+          zoom: 1, // Adjust as needed
+        ),
         markers: Set<Marker>.of(markers),
         zoomControlsEnabled: false,
         mapType: MapType.normal,
@@ -81,14 +100,6 @@ class _MapRoutingPageState extends State<MapRoutingPage> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: AppColors.primaryColor,
         onPressed: () async {
-          // GoogleMapController controller = await mapcontroller.future;
-          // controller.animateCamera(
-          //   CameraUpdate.newCameraPosition(
-          //     const CameraPosition(
-          //         target: LatLng(24.910423161326893, 67.09737518036468),
-          //         zoom: 14),
-          //   ),
-          // );
           loadData();
         },
         child: const Icon(
