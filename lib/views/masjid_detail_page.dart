@@ -26,7 +26,6 @@ class MasjidDetailPage extends StatelessWidget {
                     bottomLeft: Radius.circular(30.r),
                     bottomRight: Radius.circular(30.r))),
           ),
-       
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
             child: Column(

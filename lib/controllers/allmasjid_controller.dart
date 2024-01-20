@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:http/http.dart' as http;
 import 'package:time4taqwa/models/all_masjid_model.dart';
-
 class AllMasjidController extends GetxController {
   
   final searchController = TextEditingController();
@@ -28,9 +27,6 @@ class AllMasjidController extends GetxController {
 
       final Map<String, dynamic> responseData = json.decode(response.body);
       if (response.statusCode == 200) {
-        // Successfully authenticated and received data
-        // Do something with responseData
-
         Get.to(() => const NavigatorPage());
         log('Response data: $responseData');
         setloading(value: false);
@@ -38,7 +34,6 @@ class AllMasjidController extends GetxController {
       } else {
         setloading(value: false);
 
-        // Handle authentication error
         CustomWidgets.customsnackbar(
             isError: true, message: responseData['message']);
         log('Authentication error: ${response.statusCode}, Message: ${responseData['message']}');
