@@ -1,5 +1,5 @@
-
 import 'package:time4taqwa/exportall.dart';
+
 class DonationPage extends StatefulWidget {
   const DonationPage({super.key});
 
@@ -56,7 +56,7 @@ class _DonationPageState extends State<DonationPage> {
           ),
         ),
       ),
-      drawer: const CustomDrawer(currentPage: "splash"),
+      drawer: const CustomDrawer(currentPage: dkeys.donations),
     );
   }
 }

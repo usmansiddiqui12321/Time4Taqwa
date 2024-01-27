@@ -1,13 +1,13 @@
 import 'package:time4taqwa/exportall.dart';
 
-class MasjidScreen extends StatefulWidget {
-  const MasjidScreen({super.key});
+class SearchMasjidScreen extends StatefulWidget {
+  const SearchMasjidScreen({super.key});
 
   @override
-  State<MasjidScreen> createState() => _MasjidScreenState();
+  State<SearchMasjidScreen> createState() => _SearchMasjidScreenState();
 }
 
-class _MasjidScreenState extends State<MasjidScreen> {
+class _SearchMasjidScreenState extends State<SearchMasjidScreen> {
   var scaffoldKey = GlobalKey<ScaffoldState>();
   final controller = Get.put(AllMasjidController());
 
@@ -39,7 +39,7 @@ class _MasjidScreenState extends State<MasjidScreen> {
           ),
         ),
       ),
-      drawer: const CustomDrawer(currentPage: "splash"),
+      drawer: const CustomDrawer(currentPage: dkeys.searchMasjid),
       body: ListView(
         padding: EdgeInsets.symmetric(horizontal: 20.w),
         physics: const NeverScrollableScrollPhysics(),

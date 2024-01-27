@@ -1,5 +1,5 @@
 import 'package:time4taqwa/exportall.dart';
-import 'package:time4taqwa/views/all_masjid_page.dart';
+import 'package:time4taqwa/views/search_masjid_screen.dart';
 
 class NavigatorPage extends StatefulWidget {
   const NavigatorPage({super.key});
@@ -12,8 +12,8 @@ class _NavigatorPageState extends State<NavigatorPage> {
   final controller = Get.put(RoutingController());
   final List<Widget> screens = [
     const HomePage(),
-    // const DonationPage(),
-    const MasjidScreen(),
+    const SearchMasjidScreen(),
+    const DonationPage(),
     const MapRoutingPage()
   ];
   @override
@@ -53,7 +53,11 @@ class _NavigatorPageState extends State<NavigatorPage> {
                 label: 'Home',
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.money),
+                icon: Icon(Icons.search),
+                label: 'Search',
+              ),
+              BottomNavigationBarItem(
+                icon: ImageIcon(AssetImage('assets/donation.png')),
                 label: 'Donations',
               ),
               BottomNavigationBarItem(

@@ -1,6 +1,5 @@
 import 'package:time4taqwa/controllers/home_page_controller.dart';
 import 'package:time4taqwa/exportall.dart';
-
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -34,7 +33,7 @@ class _HomePageState extends State<HomePage> {
           textAlign: TextAlign.center,
         ),
       ),
-      drawer: const CustomDrawer(currentPage: "homepage"),
+      drawer: const CustomDrawer(currentPage: dkeys.homepage),
       body: SafeArea(
           child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 24.w),

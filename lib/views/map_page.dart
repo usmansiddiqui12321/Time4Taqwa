@@ -83,19 +83,40 @@ class _MapRoutingPageState extends State<MapRoutingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: GoogleMap(
-        initialCameraPosition: const CameraPosition(
-          target: LatLng(0, 0), // Adjust as needed
-          zoom: 1, // Adjust as needed
-        ),
-        markers: Set<Marker>.of(markers),
-        zoomControlsEnabled: false,
-        mapType: MapType.normal,
-        myLocationEnabled: true,
-        myLocationButtonEnabled: true,
-        onMapCreated: (GoogleMapController controller) {
-          mapcontroller.complete(controller);
-        },
+      body: Stack(
+        children: [
+          GoogleMap(
+            initialCameraPosition: const CameraPosition(
+              target: LatLng(0, 0), // Adjust as needed
+              zoom: 1, // Adjust as needed
+            ),
+            markers: Set<Marker>.of(markers),
+            zoomControlsEnabled: false,
+            mapType: MapType.normal,
+            myLocationEnabled: true,
+            onMapCreated: (GoogleMapController controller) {
+              mapcontroller.complete(controller);
+            },
+          ),
+          Positioned(
+            left: 130.w,
+            top: 40.h,
+            child: Center(
+              child: Container(
+                height: 50.h,
+                width: 140.w,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20.r),
+                    color: AppColors.primaryColor),
+                child: Center(
+                    child: Text(
+                  "Mosques",
+                  style: TextStyle(fontSize: 20.sp),
+                )),
+              ),
+            ),
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: AppColors.primaryColor,
