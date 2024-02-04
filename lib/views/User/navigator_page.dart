@@ -1,5 +1,5 @@
 import 'package:time4taqwa/exportall.dart';
-import 'package:time4taqwa/views/search_masjid_screen.dart';
+import 'package:time4taqwa/views/User/search_masjid_screen.dart';
 
 class NavigatorPage extends StatefulWidget {
   const NavigatorPage({super.key});

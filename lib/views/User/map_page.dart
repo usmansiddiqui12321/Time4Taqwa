@@ -1,6 +1,7 @@
 import 'dart:async';
 
-import '../exportall.dart';
+import 'package:time4taqwa/exportall.dart';
+
 
 class MapRoutingPage extends StatefulWidget {
   const MapRoutingPage({super.key});
