@@ -8,11 +8,11 @@ import 'package:http/http.dart' as http;
 class StripeController extends GetxController {
   var paymentIntent;
   var stripe = Stripe.instance;
-  var secretkey = "";
-  Future<void> makePayment(BuildContext context) async {
+  var secretkey = "sk_test_51Og9eBJqpCXg0W6pf4k1s5uBSF4fvsPTEycXcWoU8laeJPoIq6FcdY2mErxWKUL8Q6Kr6ZcoTUQt9bEGzr1aEsjb00xKX1TRoy";
+  Future<void> makePayment(BuildContext context ,String price) async {
     try {
       //STEP 1: Create Payment Intent
-      paymentIntent = await createPaymentIntent("100", "usd");
+      paymentIntent = await createPaymentIntent(price, "pkr");
 
       //STEP 2: Initialize Payment Sheet
       await stripe

@@ -1,17 +1,19 @@
-
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:time4taqwa/exportall.dart';
 
 Future<void> main() async {
-  runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  Stripe.publishableKey =
+      'pk_test_51Og9eBJqpCXg0W6pCcpJzhRJ0cr7c6fg9WhO2kjDOOoTXCWHALQYRmyHfZjm6yojlJMNrhvFNKOsltZAGw5lR0cr00fhiEDNsf';
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky,
       overlays: [SystemUiOverlay.top]);
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
   );
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-
   //! NEED to Check RED comments before submission
   const MyApp({super.key});
   @override

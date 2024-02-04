@@ -1,4 +1,5 @@
 import 'package:time4taqwa/exportall.dart';
+import 'package:time4taqwa/views/admin/admin_homepage.dart';
 
 class SegregationPage extends StatefulWidget {
   const SegregationPage({super.key});
@@ -40,7 +41,9 @@ class _SegregationPageState extends State<SegregationPage> {
             20.h.verticalSpace,
             Segregationbutton(
               title: "Admin",
-              onTap: () {},
+              onTap: () {
+                Get.to(() => const AdminHomePage());
+              },
             )
           ],
         ),

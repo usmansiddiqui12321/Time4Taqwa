@@ -2,7 +2,9 @@ import 'package:time4taqwa/exportall.dart';
 
 class CustomWidgets {
   // SnackbarController loadingwidget(){}
-  static CircularProgressIndicator isloading = const CircularProgressIndicator(color: AppColors.primaryColor,);
+  static CircularProgressIndicator isloading = const CircularProgressIndicator(
+    color: AppColors.primaryColor,
+  );
   static SnackbarController customsnackbar(
           {required String message, required bool isError}) =>
       Get.snackbar(isError ? "Error" : "Success", message,
@@ -19,7 +21,7 @@ class NeumorphicSearchField extends StatelessWidget {
   Widget build(BuildContext context) {
     final focus = FocusNode();
     return PrimaryContainer(
-      child: TextField(
+      child: TextFormField(
         focusNode: focus,
         onTapOutside: (val) {
           if (kDebugMode) {
@@ -33,25 +35,25 @@ class NeumorphicSearchField extends StatelessWidget {
         textAlignVertical: TextAlignVertical.center,
         controller: searchController,
         decoration: InputDecoration(
-            contentPadding:
-                const EdgeInsets.only(left: 20, right: 20, bottom: 3),
-            border: InputBorder.none,
-            focusedBorder: InputBorder.none,
-            errorBorder: InputBorder.none,
-            disabledBorder: InputBorder.none,
-            enabledBorder: InputBorder.none,
-            hintText: 'Search',
-            suffixIcon: Container(
-              width: 70,
-              decoration: BoxDecoration(
-                  gradient: const LinearGradient(colors: [
-                    Color(0XFF5E5E5E),
-                    Color(0XFF3E3E3E),
-                  ], begin: Alignment.centerLeft, end: Alignment.centerRight),
-                  borderRadius: BorderRadius.circular(30)),
-              child: const Icon(Icons.search, color: AppColors.lightTextColor),
-            ),
-            hintStyle: const TextStyle(fontSize: 14, color: Colors.grey)),
+          contentPadding: const EdgeInsets.only(left: 20, right: 20, bottom: 3),
+          border: InputBorder.none,
+          focusedBorder: InputBorder.none,
+          errorBorder: InputBorder.none,
+          disabledBorder: InputBorder.none,
+          enabledBorder: InputBorder.none,
+          hintText: 'Search',
+          hintStyle: const TextStyle(fontSize: 14, color: Colors.grey),
+          suffixIcon: Container(
+            width: 70,
+            decoration: BoxDecoration(
+                gradient: const LinearGradient(colors: [
+                  Color(0XFF5E5E5E),
+                  Color(0XFF3E3E3E),
+                ], begin: Alignment.centerLeft, end: Alignment.centerRight),
+                borderRadius: BorderRadius.circular(30)),
+            child: const Icon(Icons.search, color: AppColors.lightTextColor),
+          ),
+        ),
       ),
     );
   }
@@ -82,11 +84,34 @@ class PrimaryContainer extends StatelessWidget {
             blurRadius: 4,
             spreadRadius: 0,
             color: AppColors.kGrey100,
-         
           ),
         ],
       ),
       child: child,
+    );
+  }
+}
+
+class DescriptionTextField extends StatelessWidget {
+  const DescriptionTextField({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      onChanged: (value) {},
+      maxLines: 6,
+      style: const TextStyle(fontSize: 16, color: Colors.white),
+      controller: TextEditingController(),
+      decoration: const InputDecoration(
+          contentPadding:
+              EdgeInsets.only(left: 20, right: 20, bottom: 10, top: 10),
+          border: InputBorder.none,
+          focusedBorder: InputBorder.none,
+          errorBorder: InputBorder.none,
+          disabledBorder: InputBorder.none,
+          enabledBorder: InputBorder.none,
+          hintText: 'Text Here',
+          hintStyle: TextStyle(fontSize: 14, color: Colors.grey)),
     );
   }
 }
