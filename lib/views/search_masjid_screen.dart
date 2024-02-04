@@ -105,8 +105,8 @@ class _SearchMasjidScreenState extends State<SearchMasjidScreen> {
                                             BoxShadow(
                                               color:
                                                   Colors.black.withOpacity(0.2),
-                                              spreadRadius: 2,
-                                              blurRadius: 5,
+                                              spreadRadius: 2.r,
+                                              blurRadius: 5.r,
                                               offset: const Offset(0, 3),
                                             ),
                                           ],

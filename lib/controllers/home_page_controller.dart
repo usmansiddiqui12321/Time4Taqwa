@@ -19,7 +19,7 @@ class HomePageController extends GetxController {
     // Create a new timer
     timer = Timer.periodic(const Duration(seconds: 5), (Timer timer) {
       currentIndex = (currentIndex + 1) % hadithList.length;
-      log("$currentIndex===========================");
+      log("$currentIndex===========================>");
       update();
     });
 

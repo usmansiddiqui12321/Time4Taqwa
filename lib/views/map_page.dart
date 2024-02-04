@@ -20,7 +20,7 @@ class _MapRoutingPageState extends State<MapRoutingPage> {
     super.initState();
     loadData();
   }
-
+  //! 
   Future<void> loadData() async {
     BitmapDescriptor customIcon = await BitmapDescriptor.fromAssetImage(
       const ImageConfiguration(),
