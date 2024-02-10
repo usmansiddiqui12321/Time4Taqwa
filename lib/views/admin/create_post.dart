@@ -192,7 +192,7 @@ class _CreatePostState extends State<CreatePost> {
                 maxLines: 1,
                 minLines: 1,
               ),
-              InkWell(
+              GestureDetector(
                 onTap: () {
                   if (images.isEmpty) {
                     CustomWidgets.customsnackbar(
@@ -215,6 +215,7 @@ class _CreatePostState extends State<CreatePost> {
                         message: "Price should be greater than 0",
                         isError: true);
                   } else {
+                    
                     // setState(() {
                     //   stripeController.makePayment(
                     //       context, pricecontroller.text);
