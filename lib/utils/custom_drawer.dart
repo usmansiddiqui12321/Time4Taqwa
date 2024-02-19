@@ -1,5 +1,6 @@
 import 'package:time4taqwa/exportall.dart';
 import 'package:lottie/lottie.dart';
+import 'package:time4taqwa/views/User/donation_history.dart';
 
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({super.key, required this.currentPage});
@@ -59,7 +60,19 @@ class CustomDrawer extends StatelessWidget {
                           controller.setCurrentDrawer(3);
                           controller.setCurrentBottom(3);
                         },
-                      )
+                      ),
+                      ItemsContainer(
+                        isSelected: controller.currentDrawer == 4,
+                        title: "Donations History",
+                        onTap: () {
+                          // Navigator.of(context).pop();
+                          // if (currentPage == dkeys.masjidsloc) return;
+                          Get.close(1);
+                          Get.to(() => const DonationHistory());
+                          // controller.setCurrentDrawer(4);
+                          // controller.setCurrentBottom(3);
+                        },
+                      ),
                     ],
                   ),
                 ),

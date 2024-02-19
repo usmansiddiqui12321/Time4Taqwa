@@ -6,36 +6,32 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
 class StripeController extends GetxController {
+  RxBool isloading = false.obs;
   var paymentIntent;
   var stripe = Stripe.instance;
-  var secretkey = "sk_test_51Og9eBJqpCXg0W6pf4k1s5uBSF4fvsPTEycXcWoU8laeJPoIq6FcdY2mErxWKUL8Q6Kr6ZcoTUQt9bEGzr1aEsjb00xKX1TRoy";
-  Future<void> makePayment(BuildContext context ,String price) async {
+  var secretkey =
+      "sk_test_51Og9eBJqpCXg0W6pf4k1s5uBSF4fvsPTEycXcWoU8laeJPoIq6FcdY2mErxWKUL8Q6Kr6ZcoTUQt9bEGzr1aEsjb00xKX1TRoy";
+  Future<void> makePayment(BuildContext context, String price) async {
     try {
-      //STEP 1: Create Payment Intent
+      isloading(true);
       paymentIntent = await createPaymentIntent(price, "pkr");
-
-      //STEP 2: Initialize Payment Sheet
       await stripe
           .initPaymentSheet(
         paymentSheetParameters: SetupPaymentSheetParameters(
-            paymentIntentClientSecret:
-                paymentIntent!['client_secret'], //Gotten from payment intent
+            paymentIntentClientSecret: paymentIntent!['client_secret'],
             style: ThemeMode.light,
             merchantDisplayName: 'Random_Merchant_Name'),
       )
           .then((value) {
-        //! Here
+        isloading(false);
         if (kDebugMode) {
-          // print(value.toString());
           print(paymentIntent.toString());
           print("Succeed");
         }
-
         displayPaymentSheet(context);
       });
-
-      //STEP 3: Display Payment sheet
     } on StripeConfigException {
+      isloading(false);
       Get.snackbar("ERROR", "Configuration Exception Here",
           colorText: Colors.white,
           backgroundColor: const Color.fromARGB(255, 81, 77, 67),
@@ -47,6 +43,8 @@ class StripeController extends GetxController {
             "==================Configuration EXCEPTION HERE ================");
       }
     } on $StripeExceptionCopyWith {
+      isloading(false);
+
       if (kDebugMode) {
         print("==================StripeExceptionCopyWith HERE================");
       }
@@ -57,6 +55,8 @@ class StripeController extends GetxController {
         print("==================Stripe EXCEPTION HERE================");
       }
     } catch (err) {
+      isloading(false);
+
       throw Exception(err);
     }
   }
@@ -81,10 +81,7 @@ class StripeController extends GetxController {
       //Make post request to Stripe
       var response = await http.post(
         Uri.parse('https://api.stripe.com/v1/payment_intents'),
-        headers: {
-          'Authorization':
-              'Bearer $secretkey'
-        },
+        headers: {'Authorization': 'Bearer $secretkey'},
         body: body,
       );
       return json.decode(response.body);

@@ -4,7 +4,6 @@ import 'dart:developer';
 import 'package:http/http.dart' as http;
 import 'package:time4taqwa/models/all_masjid_model.dart';
 class AllMasjidController extends GetxController {
-  
   final searchController = TextEditingController();
 
   final storage = GetStorage();

@@ -39,6 +39,7 @@ dependencies:
   google_fonts: ^6.1.0
   get_storage: ^2.1.1
   lottie: ^2.7.0
+  intl: ^0.17.0
   google_maps_flutter: ^2.5.0
   geolocator: ^10.1.0
   http: ^1.1.2
@@ -46,6 +47,7 @@ dependencies:
   flutter_stripe: ^10.0.0
   dotted_border: ^2.1.0
   image_picker: ^1.0.7
+  http_parser: ^4.0.2
 
 dev_dependencies:
   flutter_test:

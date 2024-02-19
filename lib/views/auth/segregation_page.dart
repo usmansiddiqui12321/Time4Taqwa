@@ -1,5 +1,7 @@
 import 'package:time4taqwa/exportall.dart';
+import 'package:time4taqwa/models/caretaker_login_model.dart';
 import 'package:time4taqwa/views/admin/admin_homepage.dart';
+import 'package:time4taqwa/views/admin/admin_login.dart';
 
 class SegregationPage extends StatefulWidget {
   const SegregationPage({super.key});
@@ -40,9 +42,9 @@ class _SegregationPageState extends State<SegregationPage> {
             ),
             20.h.verticalSpace,
             Segregationbutton(
-              title: "Admin",
+              title: "Masjid\nCareTaker",
               onTap: () {
-                Get.to(() => const AdminHomePage());
+                Get.to(() => const AdminLoginPage());
               },
             )
           ],
@@ -67,7 +69,7 @@ class Segregationbutton extends StatelessWidget {
       onTap: onTap,
       child: Container(
         height: 100.h,
-        width: 100.w,
+        width: 150.w,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20.r),
           border: Border.all(color: Colors.deepPurple[700] as Color),
@@ -76,6 +78,7 @@ class Segregationbutton extends StatelessWidget {
         child: Center(
           child: Text(
             title,
+            textAlign: TextAlign.center,
             style: GoogleFonts.poppins(
               color: const Color(0xFF672CBC),
               fontSize: 20.sp,

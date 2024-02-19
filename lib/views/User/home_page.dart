@@ -61,7 +61,6 @@ class _HomePageState extends State<HomePage> {
             Stack(
               children: [
                 Container(
-                  // width: 326.w,
                   height: 131.h,
                   decoration: ShapeDecoration(
                     gradient: const LinearGradient(

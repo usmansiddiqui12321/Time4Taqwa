@@ -40,7 +40,12 @@ class MapRoutingController extends GetxController {
               onTap: () {
                 Get.to(() => MasjidDetailPage(
                       masjidname: mosque.mosqueName,
-                      masjidtimings: mosque.timings,
+                      fajar: mosque.Fajar,
+                      isha: mosque.Esha,
+                      jummah: mosque.Jummah,
+                      maghrib: mosque.Maghrib,
+                      zuhar: mosque.Zuhr,
+                      asar: mosque.Asar,
                     ));
               },
             ),
@@ -63,7 +68,9 @@ class MapRoutingController extends GetxController {
   }
 
   Future<Position> getUserLocation() async {
-    await Geolocator.requestPermission().then((value) {}).onError((error, stackTrace) {});
+    await Geolocator.requestPermission()
+        .then((value) {})
+        .onError((error, stackTrace) {});
     return await Geolocator.getCurrentPosition();
   }
 }

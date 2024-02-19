@@ -1,50 +1,46 @@
 // To parse this JSON data, do
 //
-//     final getAllMasjidModel = getAllMasjidModelFromJson(jsonString);
+//     final getmasjidTimeModel = getmasjidTimeModelFromJson(jsonString);
 
 import 'dart:convert';
 
-GetAllMasjidModel getAllMasjidModelFromJson(String str) => GetAllMasjidModel.fromJson(json.decode(str));
+GetmasjidTimeModel getmasjidTimeModelFromJson(String str) => GetmasjidTimeModel.fromJson(json.decode(str));
 
-String getAllMasjidModelToJson(GetAllMasjidModel data) => json.encode(data.toJson());
+String getmasjidTimeModelToJson(GetmasjidTimeModel data) => json.encode(data.toJson());
 
-class GetAllMasjidModel {
+class GetmasjidTimeModel {
     String? status;
-    int? results;
-    MasjidData? data;
+    Data? data;
 
-    GetAllMasjidModel({
+    GetmasjidTimeModel({
         this.status,
-        this.results,
         this.data,
     });
 
-    factory GetAllMasjidModel.fromJson(Map<String, dynamic> json) => GetAllMasjidModel(
+    factory GetmasjidTimeModel.fromJson(Map<String, dynamic> json) => GetmasjidTimeModel(
         status: json["status"],
-        results: json["results"],
-        data: json["data"] == null ? null : MasjidData.fromJson(json["data"]),
+        data: json["data"] == null ? null : Data.fromJson(json["data"]),
     );
 
     Map<String, dynamic> toJson() => {
         "status": status,
-        "results": results,
         "data": data?.toJson(),
     };
 }
 
-class MasjidData {
-    List<Mosque>? mosques;
+class Data {
+    Mosque? mosque;
 
-    MasjidData({
-        this.mosques,
+    Data({
+        this.mosque,
     });
 
-    factory MasjidData.fromJson(Map<String, dynamic> json) => MasjidData(
-        mosques: json["mosques"] == null ? [] : List<Mosque>.from(json["mosques"]!.map((x) => Mosque.fromJson(x))),
+    factory Data.fromJson(Map<String, dynamic> json) => Data(
+        mosque: json["mosque"] == null ? null : Mosque.fromJson(json["mosque"]),
     );
 
     Map<String, dynamic> toJson() => {
-        "mosques": mosques == null ? [] : List<dynamic>.from(mosques!.map((x) => x.toJson())),
+        "mosque": mosque?.toJson(),
     };
 }
 
@@ -59,6 +55,7 @@ class Mosque {
     String? maghrib;
     String? esha;
     String? jummah;
+    int? v;
 
     Mosque({
         this.id,
@@ -71,6 +68,7 @@ class Mosque {
         this.maghrib,
         this.esha,
         this.jummah,
+        this.v,
     });
 
     factory Mosque.fromJson(Map<String, dynamic> json) => Mosque(
@@ -84,6 +82,7 @@ class Mosque {
         maghrib: json["Maghrib"],
         esha: json["Esha"],
         jummah: json["Jummah"],
+        v: json["__v"],
     );
 
     Map<String, dynamic> toJson() => {
@@ -97,5 +96,6 @@ class Mosque {
         "Maghrib": maghrib,
         "Esha": esha,
         "Jummah": jummah,
+        "__v": v,
     };
 }

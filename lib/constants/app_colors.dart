@@ -10,4 +10,6 @@ class AppColors {
   static const Color kGrey70 = Color(0xFF78828A);
   static const Color kGrey100 = Color(0xFF171725);
   static const Color drawerColor = Color.fromARGB(255, 51, 64, 105);
+  static const Color containerColor= Color.fromARGB(255, 34, 44, 79);
+  
 }

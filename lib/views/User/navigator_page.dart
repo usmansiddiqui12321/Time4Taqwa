@@ -29,7 +29,6 @@ class _NavigatorPageState extends State<NavigatorPage> {
         init: RoutingController(),
         builder: (controller) {
           return BottomNavigationBar(
-            // type: BottomNavigationBarType.fixed,
             backgroundColor: const Color(0xff121931),
             unselectedIconTheme:
                 const IconThemeData(color: AppColors.lightTextColor),

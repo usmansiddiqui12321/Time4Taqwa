@@ -1,9 +1,8 @@
 import 'package:time4taqwa/exportall.dart';
 
 class CustomWidgets {
-  // SnackbarController loadingwidget(){}
   static CircularProgressIndicator isloading = const CircularProgressIndicator(
-    color: AppColors.primaryColor,
+    color: AppColors.whitecolor,
   );
   static SnackbarController customsnackbar(
           {required String message, required bool isError}) =>

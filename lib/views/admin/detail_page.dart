@@ -1,19 +1,28 @@
 import 'package:time4taqwa/exportall.dart';
+import 'package:time4taqwa/views/admin/edit_timings_page.dart';
+import 'package:time4taqwa/widgets/prayer_iqama_widget.dart';
 
 class DetailPage extends StatefulWidget {
-  const DetailPage({super.key});
+  final TabController tabController;
+  const DetailPage({super.key, required this.tabController});
 
   @override
   State<DetailPage> createState() => _DetailPageState();
 }
 
 class _DetailPageState extends State<DetailPage> {
+  final authcontroller = Get.put(AuthController());
+  @override
+  void initState() {
+    authcontroller.caretakerloginmodel.value;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(children: [
         30.h.verticalSpace,
-        // 20.h.verticalSpace,
         Container(
           height: 50.h,
           width: Get.width,
@@ -26,13 +35,11 @@ class _DetailPageState extends State<DetailPage> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              // 30.w.horizontalSpace,
               Text("Prayer",
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 16.sp,
                       fontWeight: FontWeight.bold)),
-              // 100.w.horizontalSpace,
               Text("Iqama",
                   style: TextStyle(
                       color: Colors.white,
@@ -45,33 +52,54 @@ class _DetailPageState extends State<DetailPage> {
         ),
         Container(
           decoration: BoxDecoration(
-            // color: AppColors.drawerColor,
             border: Border.all(color: AppColors.drawerColor, width: 3),
             borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(17.r),
                 bottomRight: Radius.circular(17.r)),
           ),
-          child: const Column(
+          child: Column(
             children: [
               PrayerIqamaWidget(
-                iqama: "10:30 Am",
+                iqama: authcontroller
+                        .caretakerloginmodel.value.data?.mosque?.fajar ??
+                    "",
                 prayer: "Fajar",
               ),
               PrayerIqamaWidget(
-                iqama: "7:30 Am",
+                iqama: authcontroller
+                        .caretakerloginmodel.value.data?.mosque?.zuhr ??
+                    "",
+
+                // iqama: "7:30 Am",
                 prayer: "Dhuhar",
               ),
               PrayerIqamaWidget(
-                iqama: "7:30 Am",
+                iqama: authcontroller
+                        .caretakerloginmodel.value.data?.mosque?.asar ??
+                    "",
+                // iqama: "7:30 Am",
                 prayer: "Asar",
               ),
               PrayerIqamaWidget(
-                iqama: "7:30 Am",
+                // iqama: "7:30 Am",
+                iqama: authcontroller
+                        .caretakerloginmodel.value.data?.mosque?.maghrib ??
+                    "",
                 prayer: "Maghrib",
               ),
               PrayerIqamaWidget(
-                iqama: "7:30 Am",
+                iqama: authcontroller
+                        .caretakerloginmodel.value.data?.mosque?.esha ??
+                    "",
+                // iqama: "7:30 Am",
                 prayer: "Isha",
+              ),
+              PrayerIqamaWidget(
+                iqama: authcontroller
+                        .caretakerloginmodel.value.data?.mosque?.jummah ??
+                    "",
+                // iqama: "7:30 Am",
+                prayer: "Jummah",
               ),
             ],
           ),
@@ -79,7 +107,29 @@ class _DetailPageState extends State<DetailPage> {
         30.h.verticalSpace,
       ]).paddingSymmetric(horizontal: 20.w),
       floatingActionButton: GestureDetector(
-        onTap: () {},
+        onTap: () {
+          Get.to(EditTimingsPage(
+            tabController: widget.tabController,
+            mosqueId:
+                authcontroller.caretakerloginmodel.value.data?.mosque?.id ?? "",
+            asar: authcontroller.caretakerloginmodel.value.data?.mosque?.asar ??
+                "",
+            fajar:
+                authcontroller.caretakerloginmodel.value.data?.mosque?.fajar ??
+                    "",
+            isha: authcontroller.caretakerloginmodel.value.data?.mosque?.esha ??
+                "",
+            jummah:
+                authcontroller.caretakerloginmodel.value.data?.mosque?.jummah ??
+                    "",
+            maghrib: authcontroller
+                    .caretakerloginmodel.value.data?.mosque?.maghrib ??
+                "",
+            zuhar:
+                authcontroller.caretakerloginmodel.value.data?.mosque?.zuhr ??
+                    "",
+          ));
+        },
         child: Container(
           width: Get.width,
           height: 50.h,
@@ -98,33 +148,5 @@ class _DetailPageState extends State<DetailPage> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
-  }
-}
-
-class PrayerIqamaWidget extends StatelessWidget {
-  final String prayer, iqama;
-  const PrayerIqamaWidget({
-    super.key,
-    required this.prayer,
-    required this.iqama,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(prayer,
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 14.sp,
-            )),
-        Text(iqama,
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 14.sp,
-            ))
-      ],
-    ).paddingSymmetric(horizontal: 48.w, vertical: 20.h);
   }
 }

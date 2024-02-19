@@ -1,13 +1,12 @@
+import 'dart:developer';
 import 'package:time4taqwa/exportall.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
-
+class AdminLoginPage extends StatefulWidget {
+  const AdminLoginPage({super.key});
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<AdminLoginPage> createState() => _AdminLoginPageState();
 }
-
-class _LoginPageState extends State<LoginPage> {
+class _AdminLoginPageState extends State<AdminLoginPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -52,6 +51,7 @@ class _LoginPageState extends State<LoginPage> {
                   style: TextStyle(fontSize: 14, color: AppColors.kGrey60),
                 ),
                 const SizedBox(height: 30),
+
                 AuthField(
                   title: 'Email Address',
                   hintText: 'Enter your email address',
@@ -115,40 +115,44 @@ class _LoginPageState extends State<LoginPage> {
                         onTap: () {
                           if (_formKey.currentState!.validate()) {
                             //* login applied
-                            // authController.login(
-                            //     email: _emailController.text,
-                            //     password: _passwordController.text);
+                            authController.adminlogin(
+                                email: _emailController.text,
+                                password: _passwordController.text);
                             //! Remove this
+                            log("email: ${_emailController.text}");
+                            log("password: ${_passwordController.text}");
                           }
-                          Get.to(() => const NavigatorPage());
+
+                          // Get.to(() => const AdminHomePage());
                         },
                         text: 'Sign In',
                       );
                     }),
                 const SizedBox(height: 20),
-                RichText(
-                  text: TextSpan(
-                    text: 'Don’t have an account? ',
-                    style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
-                        color: AppColors.kGrey70),
-                    children: [
-                      TextSpan(
-                        text: 'Sign Up',
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () {
-                            Get.off(() => const SignUpPage());
-                          },
-                        style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w700,
-                            color: AppColors.whitecolor),
-                      ),
-                    ],
-                  ),
-                  textAlign: TextAlign.center,
-                ),
+                // RichText(
+                //   text: TextSpan(
+                //     text: 'Don’t have an account? ',
+                //     style: const TextStyle(
+                //         fontSize: 16,
+                //         fontWeight: FontWeight.w700,
+                //         color: AppColors.kGrey70),
+                //     children: [
+                //       TextSpan(
+                //         text: 'Sign Up',
+                //         recognizer: TapGestureRecognizer()
+                //           ..onTap = () {
+                //             Get.off(() => const SignUpPage());
+                //           },
+                //         style: const TextStyle(
+                //             fontSize: 16,
+                //             fontWeight: FontWeight.w700,
+                //             color: AppColors.whitecolor),
+                //       ),
+                //     ],
+                //   ),
+                //   textAlign: TextAlign.center,
+                // ),
+
                 const SizedBox(height: 20),
                 const AgreeTermsTextCard(),
               ],

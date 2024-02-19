@@ -1,27 +1,25 @@
 import 'package:time4taqwa/exportall.dart';
 
-class CustomTextFormField extends StatelessWidget {
-  final String hint, labelText;
-  final int? maxLines;
-  final int? minLines;
-  final TextInputType? keyboardType;
+class CustomTimeFormField extends StatelessWidget {
+  
+  final String hint;
+  void Function()? onTap;
   final TextEditingController controller;
 
-  const CustomTextFormField(
-      {super.key,
-      required this.hint,
-      required this.labelText,
-      required this.controller,
-      required this.maxLines,
-      this.minLines, this.keyboardType});
+  CustomTimeFormField({
+    super.key,
+    this.onTap,
+    required this.hint,
+    required this.controller,
+  });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      keyboardType: keyboardType,
-      maxLines: maxLines,
-      minLines: minLines,
+      onTap: onTap,
       controller: controller,
+      readOnly: true,
+
       onTapOutside: (val) {
         if (kDebugMode) {
           print('onTapOutside');
@@ -29,7 +27,7 @@ class CustomTextFormField extends StatelessWidget {
         FocusManager.instance.primaryFocus?.unfocus();
       },
       decoration: InputDecoration(
-        labelText: labelText,
+        suffixIcon: const Icon(Icons.access_time),
         hoverColor: Colors.white,
         contentPadding: const EdgeInsets.only(left: 20, right: 20, bottom: 3),
         border: OutlineInputBorder(

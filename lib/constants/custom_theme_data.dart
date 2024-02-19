@@ -17,6 +17,7 @@ class CustomTheme {
       ),
     ),
     appBarTheme: const AppBarTheme(
+      surfaceTintColor: Colors.transparent,
       backgroundColor: Colors.transparent,
       // foregroundColor: Colors.white
     ),

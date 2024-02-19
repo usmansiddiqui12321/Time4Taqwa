@@ -10,6 +10,47 @@ class SearchMasjidScreen extends StatefulWidget {
 class _SearchMasjidScreenState extends State<SearchMasjidScreen> {
   var scaffoldKey = GlobalKey<ScaffoldState>();
   final controller = Get.put(AllMasjidController());
+  late Position currentPosition;
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      currentPosition = Position(
+          longitude: 0.0,
+          latitude: 0.0,
+          timestamp: DateTime.now(),
+          accuracy: 0.0,
+          altitude: 0.0,
+          altitudeAccuracy: 0.0,
+          heading: 0.0,
+          headingAccuracy: 0.0,
+          speed: 0.0,
+          speedAccuracy: 0.0);
+      initial();
+    });
+    super.initState();
+  }
+
+  Future<void> initial() async {
+    currentPosition = await Geolocator.getCurrentPosition();
+    if (mounted) {
+      setState(() {});
+    }
+  }
+
+  double calculateDistance(
+      {required double startLatitude,
+      required double startLongitude,
+      required double endLatitude,
+      required double endLongitude}) {
+    double distance = Geolocator.distanceBetween(
+      startLatitude,
+      startLongitude,
+      endLatitude,
+      endLongitude,
+    );
+    double distanceInKm = distance / 1000;
+    return distanceInKm;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +63,7 @@ class _SearchMasjidScreenState extends State<SearchMasjidScreen> {
           child: GestureDetector(
             onTap: () {
               scaffoldKey.currentState?.openDrawer();
+              // }); // scaffoldKey.currentState?.openDrawer();
             },
             child: Image(
                 height: 24.h,
@@ -78,9 +120,22 @@ class _SearchMasjidScreenState extends State<SearchMasjidScreen> {
                             var name = snapshot
                                     .data?.data?.mosques?[index].mosqueName ??
                                 "";
-                            var timings =
-                                snapshot.data?.data?.mosques?[index].timings ??
-                                    [];
+                            var data = snapshot.data?.data?.mosques?[index];
+                            var fajartime = data?.fajar ?? "";
+                            var zuhrtime = data?.zuhr ?? "";
+                            var asarTime = data?.asar ?? "";
+                            var maghribTime = data?.maghrib ?? "";
+                            var ishaTime = data?.esha ?? "";
+                            var jummahTime = data?.jummah ?? "";
+                            var distancelong = data?.longitude ?? 0.0;
+                            var distancelang = data?.latitude ?? 0.0;
+                            var distance = calculateDistance(
+                              startLatitude: currentPosition.latitude,
+                              startLongitude: currentPosition.longitude,
+                              endLatitude: distancelang,
+                              endLongitude: distancelong,
+                            );
+
                             return snapshot
                                     .data!.data!.mosques![index].mosqueName!
                                     .toLowerCase()
@@ -92,7 +147,12 @@ class _SearchMasjidScreenState extends State<SearchMasjidScreen> {
                                       onTap: () {
                                         Get.to(() => MasjidDetailPage(
                                               masjidname: name,
-                                              masjidtimings: timings,
+                                              fajar: fajartime,
+                                              isha: ishaTime,
+                                              jummah: jummahTime,
+                                              maghrib: maghribTime,
+                                              zuhar: zuhrtime,
+                                              asar: asarTime,
                                             ));
                                       },
                                       child: Container(
@@ -125,35 +185,34 @@ class _SearchMasjidScreenState extends State<SearchMasjidScreen> {
                                             ),
                                             20.h.verticalSpace,
                                             Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
                                               children: [
-                                                const Icon(
-                                                  Icons.access_time,
-                                                  color: Colors.white,
-                                                  size: 18,
+                                                Row(
+                                                  children: [
+                                                    const Icon(
+                                                      Icons.place,
+                                                      color: Colors.white,
+                                                      size: 18,
+                                                    ),
+                                                    8.w.horizontalSpace,
+                                                    Text(
+                                                      '${distance.toStringAsFixed(2)} km Away',
+                                                      style: const TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 16,
+                                                      ),
+                                                    ),
+                                                  ],
                                                 ),
-                                                8.w.horizontalSpace,
                                                 const Text(
-                                                  'Prayer Timings:',
+                                                  "View Details",
                                                   style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 16,
-                                                  ),
-                                                ),
+                                                      decoration: TextDecoration
+                                                          .underline),
+                                                )
                                               ],
-                                            ),
-                                            const SizedBox(height: 8),
-                                            Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: timings
-                                                  .map((timing) => Text(
-                                                        timing,
-                                                        style: const TextStyle(
-                                                          color: Colors.white,
-                                                          fontSize: 14,
-                                                        ),
-                                                      ))
-                                                  .toList(),
                                             ),
                                           ],
                                         ),

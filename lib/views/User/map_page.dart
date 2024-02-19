@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:time4taqwa/exportall.dart';
 
-
 class MapRoutingPage extends StatefulWidget {
   const MapRoutingPage({super.key});
 
@@ -21,7 +20,7 @@ class _MapRoutingPageState extends State<MapRoutingPage> {
     super.initState();
     loadData();
   }
-  //! 
+
   Future<void> loadData() async {
     BitmapDescriptor customIcon = await BitmapDescriptor.fromAssetImage(
       const ImageConfiguration(),
@@ -54,10 +53,15 @@ class _MapRoutingPageState extends State<MapRoutingPage> {
                 onTap: () {
                   Get.to(() => MasjidDetailPage(
                         masjidname: mosque.mosqueName,
-                        masjidtimings: mosque.timings,
+                        fajar: mosque.fajar,
+                        isha: mosque.esha,
+                        jummah: mosque.jummah,
+                        maghrib: mosque.maghrib,
+                        zuhar: mosque.zuhr,
+                        asar: mosque.asar,
                       ));
                 }),
-            // Add other properties as needed
+           
           ),
         );
       }
@@ -88,8 +92,8 @@ class _MapRoutingPageState extends State<MapRoutingPage> {
         children: [
           GoogleMap(
             initialCameraPosition: const CameraPosition(
-              target: LatLng(0, 0), // Adjust as needed
-              zoom: 1, // Adjust as needed
+              target: LatLng(0, 0),
+              zoom: 1,
             ),
             markers: Set<Marker>.of(markers),
             zoomControlsEnabled: false,
