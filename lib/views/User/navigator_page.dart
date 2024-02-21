@@ -44,7 +44,6 @@ class _NavigatorPageState extends State<NavigatorPage> {
               controller.setCurrentBottom(index);
               controller.setCurrentDrawer(index);
             },
-
             currentIndex: controller.currentbottom,
             items: const [
               BottomNavigationBarItem(

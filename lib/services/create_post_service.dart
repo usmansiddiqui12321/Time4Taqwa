@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'dart:io';
 import 'package:http_parser/http_parser.dart';
 import 'package:http/http.dart' as http;
-import 'package:time4taqwa/constants/app_urls.dart';
 import 'package:time4taqwa/exportall.dart';
 import 'package:time4taqwa/models/create_donation_model.dart';
 
@@ -50,6 +49,8 @@ class PostService {
       return CreatePostModel.fromJson(jsonData);
     } else {
       log("From Post Service");
+      CustomWidgets.customsnackbar(
+          message: "Something went wrong", isError: true);
       throw message;
     }
   }
@@ -66,6 +67,9 @@ class PostService {
           message: "Deleted Successfully", isError: false);
       return jsonData.toString();
     } else {
+      CustomWidgets.customsnackbar(
+          message: "Something went wrong", isError: true);
+
       log("From delete${response.statusCode}");
       // throw jsonData['succ'];
     }

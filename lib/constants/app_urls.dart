@@ -11,10 +11,12 @@ class AppUrls {
   static const String deletedonationurl =
       "${initialurl}api/donation/"; //donation id
   static const String getdonationurl =
-      "${initialurl}api/donation/?email="; //email 
-      static String viewdonationurl(username){
-return '$initialurl/api/users/$username/donations/view';
-      }
-      
-      
+      "${initialurl}api/donation/?email="; //email
+  static String viewdonationurl(username) {
+    return '$initialurl/api/users/$username/donations/view';
+  }
+
+  static String pushdonationurl(username) {
+    return '$initialurl/api/users/$username/donations/push';
+  }
 }

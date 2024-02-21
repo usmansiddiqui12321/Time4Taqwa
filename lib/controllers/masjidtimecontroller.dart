@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:time4taqwa/exportall.dart';
 import 'package:http/http.dart' as http;
@@ -52,6 +53,8 @@ class MasjidTimeController extends GetxController {
         log('Authentication error: ${response.statusCode}, Message: ${jsonData['message']}');
         throw Exception();
       }
+    } on SocketException {
+      CustomWidgets.customsnackbar(message: "No internet connection", isError: true);
     } catch (error) {
       // setloading(value: false);
       isloading(false);

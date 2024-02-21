@@ -4,14 +4,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:time4taqwa/controllers/donation_controller.dart';
 
 class StripeController extends GetxController {
   RxBool isloading = false.obs;
   var paymentIntent;
   var stripe = Stripe.instance;
+  final donationcontroller = Get.put(DonationController());
   var secretkey =
       "sk_test_51Og9eBJqpCXg0W6pf4k1s5uBSF4fvsPTEycXcWoU8laeJPoIq6FcdY2mErxWKUL8Q6Kr6ZcoTUQt9bEGzr1aEsjb00xKX1TRoy";
-  Future<void> makePayment(BuildContext context, String price) async {
+  Future<void> makePayment(
+      {required BuildContext context,
+      required String price,
+      required String mosqueName,
+      required String title,
+      required String description}) async {
     try {
       isloading(true);
       paymentIntent = await createPaymentIntent(price, "pkr");
@@ -28,7 +35,13 @@ class StripeController extends GetxController {
           print(paymentIntent.toString());
           print("Succeed");
         }
-        displayPaymentSheet(context);
+        displayPaymentSheet(
+          context: context,
+          description: description,
+          mosqueName: mosqueName,
+          title: title,
+          price: price,
+        );
       });
     } on StripeConfigException {
       isloading(false);
@@ -90,7 +103,12 @@ class StripeController extends GetxController {
     }
   }
 
-  displayPaymentSheet(BuildContext context) async {
+  displayPaymentSheet(
+      {required BuildContext context,
+      required String price,
+      required String mosqueName,
+      required String title,
+      required String description}) async {
     if (kDebugMode) {
       print("00");
     }
@@ -99,7 +117,9 @@ class StripeController extends GetxController {
         print("11");
       }
       await Stripe.instance.presentPaymentSheet().then((value) {
-        print("SUCCESS HERE $value");
+        if (kDebugMode) {
+          print("SUCCESS HERE $value");
+        }
         showDialog(
             context: context,
             builder: (_) => const AlertDialog(
@@ -118,11 +138,20 @@ class StripeController extends GetxController {
                 ));
 
         paymentIntent = null;
+      }).then((value) {
+        //! PUSH HERE
+        donationcontroller.pushDonation(
+            mosqueName: mosqueName,
+            title: title,
+            amount: price,
+            description: description);
       }).onError((error, stackTrace) {
         throw Exception(error);
       });
     } on StripeException catch (e) {
-      print('Error is:---> $e');
+      if (kDebugMode) {
+        print('Error is:---> $e');
+      }
       const AlertDialog(
         content: Column(
           mainAxisSize: MainAxisSize.min,

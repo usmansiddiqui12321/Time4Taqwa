@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dotted_border/dotted_border.dart';
 import 'package:time4taqwa/controllers/stripe_controller.dart';
 import 'package:time4taqwa/exportall.dart';
@@ -189,9 +191,15 @@ class _PostDetailPageState extends State<PostDetailPage> {
                       ontap: () {
                         setState(() {
                           Get.close(1);
+                          log("amount====> ${amountController.text.runtimeType}");
                           stripeController.makePayment(
-                            context,
-                            amountController.text,
+                            // context,
+                            // amountController.text,
+                            context: context,
+                            description: widget.description,
+                            mosqueName: widget.masjidname,
+                            price: amountController.text,
+                            title: widget.title,
                           );
                         });
                       });

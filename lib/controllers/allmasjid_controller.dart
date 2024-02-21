@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:time4taqwa/exportall.dart';
 import 'dart:convert';
 import 'dart:developer';
@@ -13,7 +15,7 @@ class AllMasjidController extends GetxController {
     update();
   }
 
-  Future<GetAllMasjidModel> getall() async {
+  Future<GetAllMasjidModel?> getall() async {
     try {
       setloading(value: true);
       var headers = {
@@ -38,6 +40,8 @@ class AllMasjidController extends GetxController {
         log('Authentication error: ${response.statusCode}, Message: ${responseData['message']}');
         throw Exception();
       }
+    }on SocketException {
+      CustomWidgets.customsnackbar(message: "No internet connection", isError: true);
     } catch (error) {
       setloading(value: false);
 

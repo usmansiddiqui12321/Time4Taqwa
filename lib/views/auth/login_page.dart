@@ -113,14 +113,17 @@ class _LoginPageState extends State<LoginPage> {
                         isloading: authController.loading,
                         color: AppColors.lightTextColor,
                         onTap: () {
-                          if (_formKey.currentState!.validate()) {
-                            //* login applied
-                            // authController.login(
-                            //     email: _emailController.text,
-                            //     password: _passwordController.text);
-                            //! Remove this
+                          if (authController.loading) {
+                          } else {
+                            if (_formKey.currentState!.validate()) {
+                              //* login applied
+                              authController.login(
+                                  email: _emailController.text,
+                                  password: _passwordController.text);
+                            }
                           }
-                          Get.to(() => const NavigatorPage());
+                          //! Remove this
+                          // Get.to(() => const NavigatorPage());
                         },
                         text: 'Sign In',
                       );

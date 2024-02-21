@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:time4taqwa/exportall.dart';
 import 'package:http/http.dart' as http;
@@ -13,6 +14,7 @@ class DonationController extends GetxController {
   Rx<GetDonationModel> getdonationmodel = GetDonationModel().obs;
   Rx<ViewDonationHistoryModel> viewdonationhistorymodel =
       ViewDonationHistoryModel().obs;
+  final authController = Get.put(AuthController());
   Future<void> getAllDonations() async {
     try {
       isloading(true);
@@ -30,10 +32,12 @@ class DonationController extends GetxController {
         isloading(false);
         CustomWidgets.customsnackbar(
             isError: true, message: jsonData['message']);
-        log('Authentication error: ${response.statusCode}, Message: ${jsonData['message']}');
+        log('error: ${response.statusCode}, Message: ${jsonData['message']}');
         throw Exception();
       }
-    } catch (error) {
+    } on SocketException {
+      CustomWidgets.customsnackbar(message: "No internet connection", isError: true);
+    }catch (error) {
       // setloading(value: false);
       isloading(false);
 
@@ -65,10 +69,12 @@ class DonationController extends GetxController {
         isloading(false);
         CustomWidgets.customsnackbar(
             isError: true, message: jsonData['message']);
-        log('Authentication error: ${response.statusCode}, Message: ${jsonData['message']}');
+        log('error: ${response.statusCode}, Message: ${jsonData['message']}');
         throw Exception();
       }
-    } catch (error) {
+    } on SocketException {
+      CustomWidgets.customsnackbar(message: "No internet connection", isError: true);
+    }catch (error) {
       // setloading(value: false);
       isloading(false);
 
@@ -86,7 +92,8 @@ class DonationController extends GetxController {
     try {
       isloading(true);
       var response = await http.get(
-        Uri.parse(AppUrls.viewdonationurl("testuser1")),
+        Uri.parse(AppUrls.viewdonationurl(
+            authController.userloginmodel.value.data?.user?.username ?? "")),
       );
       final jsonData = jsonDecode(response.body);
       if (response.statusCode == 200) {
@@ -100,9 +107,67 @@ class DonationController extends GetxController {
         isloading(false);
         CustomWidgets.customsnackbar(
             isError: true, message: jsonData['message']);
-        log('Authentication error: ${response.statusCode}, Message: ${jsonData['message']}');
+        log('error: ${response.statusCode}, Message: ${jsonData['message']}');
         throw Exception();
       }
+    } on SocketException {
+      CustomWidgets.customsnackbar(message: "No internet connection", isError: true);
+    }catch (error) {
+      // setloading(value: false);
+      isloading(false);
+
+      // Handle general error, e.g., network error
+      CustomWidgets.customsnackbar(isError: true, message: 'Network error');
+      log('Error during authentication: $error');
+      throw Exception();
+    } finally {
+      // setloading(value: false);
+      isloading(false);
+    }
+  }
+
+  Future<void> pushDonation(
+      {required String mosqueName,
+      required String title,
+      required String amount,
+      required String description}) async {
+    try {
+      isloading(true);
+      // Check if amount is a valid integer
+      // if (!RegExp(r'^[0-9]+$').hasMatch(amount)) {
+      //   throw FormatException("Invalid amount format: $amount");
+      // }
+
+      // int price = int.parse(amount);
+      var body = {
+        "mosqueName": mosqueName,
+        "title": title,
+        "amount": amount,
+        "description": "Air Conditioner for summers"
+      };
+      // log("====================${int.parse(amount.runtimeType.toString())}");
+      var response = await http.patch(
+        body: body,
+        Uri.parse(
+          AppUrls.pushdonationurl(
+              authController.userloginmodel.value.data?.user?.username ?? ""),
+        ),
+      );
+      final jsonData = jsonDecode(response.body);
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        log('Response data: $jsonData');
+        isloading(false);
+        CustomWidgets.customsnackbar(
+            isError: false, message: "Donation Successful");
+      } else {
+        isloading(false);
+        CustomWidgets.customsnackbar(
+            isError: true, message: jsonData['status']);
+        log('error: ${response.statusCode}, Message: ${jsonData['status']}');
+        throw Exception();
+      }
+    }on SocketException {
+      CustomWidgets.customsnackbar(message: "No internet connection", isError: true);
     } catch (error) {
       // setloading(value: false);
       isloading(false);

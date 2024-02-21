@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:time4taqwa/models/caretaker_login_model.dart';
 import 'package:time4taqwa/models/user_login_model.dart';
@@ -47,6 +48,8 @@ class AuthController extends GetxController {
         log('Authentication error: ${response.statusCode}, Message: ${jsonData['message']}');
         throw jsonData['message'];
       }
+    }on SocketException {
+      CustomWidgets.customsnackbar(message: "No internet connection", isError: true);
     } catch (error) {
       setloading(value: false);
       CustomWidgets.customsnackbar(isError: true, message: 'Network error');
@@ -101,6 +104,8 @@ class AuthController extends GetxController {
         );
         log('Authentication error: ${response.statusCode}, Message: ${jsonData['status']}');
       }
+    }on SocketException {
+      CustomWidgets.customsnackbar(message: "No internet connection", isError: true);
     } catch (error) {
       setloading(value: false);
 
@@ -143,6 +148,8 @@ class AuthController extends GetxController {
             isError: true, message: jsonData['message']);
         log('Authentication error: ${response.statusCode}, Message: ${jsonData['message']}');
       }
+    }on SocketException {
+      CustomWidgets.customsnackbar(message: "No internet connection", isError: true);
     } catch (error) {
       setloading(value: false);
       CustomWidgets.customsnackbar(isError: true, message: 'Network error');

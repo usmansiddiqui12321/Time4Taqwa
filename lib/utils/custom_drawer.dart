@@ -2,15 +2,23 @@ import 'package:time4taqwa/exportall.dart';
 import 'package:lottie/lottie.dart';
 import 'package:time4taqwa/views/User/donation_history.dart';
 
-class CustomDrawer extends StatelessWidget {
+class CustomDrawer extends StatefulWidget {
   const CustomDrawer({super.key, required this.currentPage});
   final String currentPage;
+
+  @override
+  State<CustomDrawer> createState() => _CustomDrawerState();
+}
+
+class _CustomDrawerState extends State<CustomDrawer> {
+  var scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
     return GetBuilder(
         init: RoutingController(),
         builder: (controller) {
           return Drawer(
+            key: scaffoldKey,
             backgroundColor: AppColors.primaryColor,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -27,7 +35,7 @@ class CustomDrawer extends StatelessWidget {
                       ItemsContainer(
                           onTap: () {
                             Navigator.of(context).pop();
-                            if (currentPage == dkeys.homepage) return;
+                            if (widget.currentPage == dkeys.homepage) return;
                             controller.setCurrentDrawer(0);
                             controller.setCurrentBottom(0);
                           },
@@ -36,7 +44,8 @@ class CustomDrawer extends StatelessWidget {
                       ItemsContainer(
                           onTap: () {
                             Navigator.of(context).pop();
-                            if (currentPage == dkeys.searchMasjid) return;
+                            if (widget.currentPage == dkeys.searchMasjid)
+                              return;
                             controller.setCurrentDrawer(1);
                             controller.setCurrentBottom(1);
                           },
@@ -45,7 +54,7 @@ class CustomDrawer extends StatelessWidget {
                       ItemsContainer(
                           onTap: () {
                             Navigator.of(context).pop();
-                            if (currentPage == dkeys.donations) return;
+                            if (widget.currentPage == dkeys.donations) return;
                             controller.setCurrentDrawer(2);
                             controller.setCurrentBottom(2);
                           },
@@ -56,7 +65,7 @@ class CustomDrawer extends StatelessWidget {
                         title: "Mosques Locations",
                         onTap: () {
                           Navigator.of(context).pop();
-                          if (currentPage == dkeys.masjidsloc) return;
+                          if (widget.currentPage == dkeys.masjidsloc) return;
                           controller.setCurrentDrawer(3);
                           controller.setCurrentBottom(3);
                         },

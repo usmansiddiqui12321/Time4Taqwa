@@ -28,8 +28,8 @@ class MapRoutingController extends GetxController {
     );
 
     // Add markers from allMasjids data
-    if (allMasjids.data != null && allMasjids.data?.mosques != null) {
-      for (var mosque in allMasjids.data?.mosques ?? []) {
+    if (allMasjids?.data != null && allMasjids?.data?.mosques != null) {
+      for (var mosque in allMasjids?.data?.mosques ?? []) {
         markers.add(
           Marker(
             icon: customIcon,

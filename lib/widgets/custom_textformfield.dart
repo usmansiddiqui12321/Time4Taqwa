@@ -1,7 +1,7 @@
 import 'package:time4taqwa/exportall.dart';
 
 class CustomTextFormField extends StatelessWidget {
-  final String hint, labelText;
+  final String? hint, labelText;
   final int? maxLines;
   final int? minLines;
   final TextInputType? keyboardType;
@@ -9,11 +9,12 @@ class CustomTextFormField extends StatelessWidget {
 
   const CustomTextFormField(
       {super.key,
-      required this.hint,
-      required this.labelText,
+      this.hint,
+      this.labelText,
       required this.controller,
-      required this.maxLines,
-      this.minLines, this.keyboardType});
+      this.maxLines,
+      this.minLines,
+      this.keyboardType});
 
   @override
   Widget build(BuildContext context) {
