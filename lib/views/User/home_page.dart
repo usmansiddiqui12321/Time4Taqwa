@@ -17,7 +17,8 @@ class _HomePageState extends State<HomePage> {
 
   final authController = Get.put(AuthController());
   final homecontroller = Get.put(HomePageController());
-  var scaffoldKey = GlobalKey<ScaffoldState>();
+  GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+
   final themecontroller = ThemeController();
   @override
   Widget build(BuildContext context) {
@@ -28,9 +29,7 @@ class _HomePageState extends State<HomePage> {
           padding: EdgeInsets.only(left: 24.w),
           child: GestureDetector(
             onTap: () {
-              setState(() {
-                Scaffold.of(context).openDrawer();
-              });
+              scaffoldKey.currentState?.openDrawer();
             },
             child: Image(
                 height: 24.h,

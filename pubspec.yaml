@@ -52,6 +52,7 @@ dependencies:
   jhijri: ^1.0.0
   jhijri_picker: ^1.0.1
   flutter_launcher_icons: ^0.13.1
+  permission_handler: ^11.3.0
 
 dev_dependencies:
   flutter_test:

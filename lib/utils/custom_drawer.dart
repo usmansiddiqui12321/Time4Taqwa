@@ -14,94 +14,89 @@ class _CustomDrawerState extends State<CustomDrawer> {
   var scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
-    return GetBuilder(
-        init: RoutingController(),
-        builder: (controller) {
-          return Drawer(
-            key: scaffoldKey,
-            backgroundColor: AppColors.primaryColor,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Padding(
-                  padding:
-                      EdgeInsets.symmetric(vertical: 50.h, horizontal: 15.w),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Center(
-                          child: Lottie.asset('assets/animation.json',
-                              height: 150, width: 150)),
-                      ItemsContainer(
+    return Drawer(
+        key: scaffoldKey,
+        backgroundColor: AppColors.primaryColor,
+        child: GetBuilder(
+            init: RoutingController(),
+            builder: (controller) {
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Padding(
+                    padding:
+                        EdgeInsets.symmetric(vertical: 50.h, horizontal: 15.w),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Center(
+                            child: Lottie.asset('assets/animation.json',
+                                height: 150, width: 150)),
+                        ItemsContainer(
+                            onTap: () {
+                              Navigator.of(context).pop();
+                              if (widget.currentPage == dkeys.homepage) return;
+                              controller.setCurrentDrawer(0);
+                              controller.setCurrentBottom(0);
+                            },
+                            isSelected: controller.currentDrawer == 0,
+                            title: "Homepage"),
+                        ItemsContainer(
+                            onTap: () {
+                              Navigator.of(context).pop();
+                              if (widget.currentPage == dkeys.searchMasjid)
+                                return;
+                              controller.setCurrentDrawer(1);
+                              controller.setCurrentBottom(1);
+                            },
+                            isSelected: controller.currentDrawer == 1,
+                            title: "Search Mosques"),
+                        ItemsContainer(
+                            onTap: () {
+                              Navigator.of(context).pop();
+                              if (widget.currentPage == dkeys.donations) return;
+                              controller.setCurrentDrawer(2);
+                              controller.setCurrentBottom(2);
+                            },
+                            isSelected: controller.currentDrawer == 2,
+                            title: "Donations"),
+                        ItemsContainer(
+                          isSelected: controller.currentDrawer == 3,
+                          title: "Mosques Locations",
                           onTap: () {
                             Navigator.of(context).pop();
-                            if (widget.currentPage == dkeys.homepage) return;
-                            controller.setCurrentDrawer(0);
-                            controller.setCurrentBottom(0);
+                            if (widget.currentPage == dkeys.masjidsloc) return;
+                            controller.setCurrentDrawer(3);
+                            controller.setCurrentBottom(3);
                           },
-                          isSelected: controller.currentDrawer == 0,
-                          title: "Homepage"),
-                      ItemsContainer(
+                        ),
+                        ItemsContainer(
+                          isSelected: controller.currentDrawer == 4,
+                          title: "Donations History",
                           onTap: () {
-                            Navigator.of(context).pop();
-                            if (widget.currentPage == dkeys.searchMasjid)
-                              return;
-                            controller.setCurrentDrawer(1);
-                            controller.setCurrentBottom(1);
+                            Get.close(1);
+                            Get.to(() => const DonationHistory());
                           },
-                          isSelected: controller.currentDrawer == 1,
-                          title: "Search Mosques"),
-                      ItemsContainer(
-                          onTap: () {
-                            Navigator.of(context).pop();
-                            if (widget.currentPage == dkeys.donations) return;
-                            controller.setCurrentDrawer(2);
-                            controller.setCurrentBottom(2);
-                          },
-                          isSelected: controller.currentDrawer == 2,
-                          title: "Donations"),
-                      ItemsContainer(
-                        isSelected: controller.currentDrawer == 3,
-                        title: "Mosques Locations",
-                        onTap: () {
-                          Navigator.of(context).pop();
-                          if (widget.currentPage == dkeys.masjidsloc) return;
-                          controller.setCurrentDrawer(3);
-                          controller.setCurrentBottom(3);
-                        },
-                      ),
-                      ItemsContainer(
-                        isSelected: controller.currentDrawer == 4,
-                        title: "Donations History",
-                        onTap: () {
-                          // Navigator.of(context).pop();
-                          // if (currentPage == dkeys.masjidsloc) return;
-                          Get.close(1);
-                          Get.to(() => const DonationHistory());
-                          // controller.setCurrentDrawer(4);
-                          // controller.setCurrentBottom(3);
-                        },
-                      ),
-                    ],
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                ListTile(
-                  title: Text(
-                    "Logout",
-                    style: Theme.of(context)
-                        .textTheme
-                        .displayMedium!
-                        .copyWith(fontWeight: FontWeight.bold),
+                  ListTile(
+                    title: Text(
+                      "Logout",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18.sp,
+                      ),
+                    ),
+                    trailing: const Icon(Icons.arrow_forward),
+                    onTap: () {
+                      Get.offAll(const LoginPage());
+                    },
                   ),
-                  trailing: const Icon(Icons.arrow_forward),
-                  onTap: () {
-                    Get.offAll(const LoginPage());
-                  },
-                ),
-              ],
-            ),
-          );
-        });
+                ],
+              );
+            }));
   }
 }
 
@@ -131,8 +126,10 @@ class ItemsContainer extends StatelessWidget {
           ),
           child: Text(
             title,
-            style: Theme.of(context).textTheme.displayMedium!.copyWith(
-                fontWeight: isSelected ? FontWeight.bold : FontWeight.normal),
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+            ),
           ),
         ),
       ),

@@ -1,14 +1,14 @@
 import 'dart:io';
-import 'package:dotted_border/dotted_border.dart';
-import 'package:time4taqwa/controllers/post_controller.dart';
 import 'package:time4taqwa/exportall.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:time4taqwa/widgets/custom_textformfield.dart';
 
 class CreatePost extends StatefulWidget {
   final TabController tabController;
+  final String masjidname;
 
-  const CreatePost({super.key, required this.tabController});
+  const CreatePost(
+      {super.key, required this.tabController, required this.masjidname});
 
   @override
   State<CreatePost> createState() => _CreatePostState();
@@ -217,7 +217,7 @@ class _CreatePostState extends State<CreatePost> {
                                 title: titleController.text,
                                 description: descriptionController.text,
                                 amount: pricecontroller.text,
-                                mosqueName: "Masjid AlNoor",
+                                mosqueName: widget.masjidname,
                                 images: filestoDisplay,
                                 context: context);
                           }

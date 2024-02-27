@@ -10,6 +10,7 @@ class NavigatorPage extends StatefulWidget {
 
 class _NavigatorPageState extends State<NavigatorPage> {
   final controller = Get.put(RoutingController());
+  final key = GlobalKey<ScaffoldState>();
   final List<Widget> screens = [
     const HomePage(),
     const SearchMasjidScreen(),
@@ -19,6 +20,7 @@ class _NavigatorPageState extends State<NavigatorPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: key,
       body: PopScope(
         canPop: false,
         child: GetBuilder(

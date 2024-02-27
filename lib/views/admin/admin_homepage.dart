@@ -2,7 +2,6 @@ import 'package:time4taqwa/exportall.dart';
 import 'package:time4taqwa/views/admin/create_post.dart';
 import 'package:time4taqwa/views/admin/detail_page.dart';
 import 'package:time4taqwa/views/admin/your_posts.dart';
-import 'package:time4taqwa/widgets/custom_dialogboxes.dart';
 
 class AdminHomePage extends StatefulWidget {
   const AdminHomePage({super.key});
@@ -12,10 +11,12 @@ class AdminHomePage extends StatefulWidget {
 
 class _AdminHomePageState extends State<AdminHomePage>
     with SingleTickerProviderStateMixin {
+  final caretakerController = Get.put(AuthController());
   late TabController _tabController;
   @override
   void initState() {
     _tabController = TabController(length: 3, vsync: this); // Number of tabs
+
     super.initState();
   }
 
@@ -66,6 +67,9 @@ class _AdminHomePageState extends State<AdminHomePage>
           children: [
             YourPosts(tabController: _tabController),
             CreatePost(
+              masjidname: caretakerController
+                      .caretakerloginmodel.value.data?.mosque?.mosqueName ??
+                  "",
               tabController: _tabController,
             ),
             DetailPage(

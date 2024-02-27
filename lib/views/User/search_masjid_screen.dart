@@ -1,4 +1,5 @@
 import 'package:time4taqwa/exportall.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class SearchMasjidScreen extends StatefulWidget {
   const SearchMasjidScreen({super.key});
@@ -8,12 +9,12 @@ class SearchMasjidScreen extends StatefulWidget {
 }
 
 class _SearchMasjidScreenState extends State<SearchMasjidScreen> {
-  // var scaffoldKey = GlobalKey<ScaffoldState>();
+  GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   final getAllmasjidcontroller = Get.put(AllMasjidController());
   late Position currentPosition;
   @override
   void initState() {
-    // WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    _requestLocationPermission();
     currentPosition = Position(
         longitude: 0.0,
         latitude: 0.0,
@@ -25,9 +26,33 @@ class _SearchMasjidScreenState extends State<SearchMasjidScreen> {
         headingAccuracy: 0.0,
         speed: 0.0,
         speedAccuracy: 0.0);
+
     initial();
 
     super.initState();
+  }
+
+  Future<void> _requestLocationPermission() async {
+    var status = await Permission.location.request();
+    if (status == PermissionStatus.granted) {
+      // Location permission granted, you can now proceed with getting the location.
+      await _getCurrentLocation();
+    } else {
+      // Handle the case where the user denied or didn't grant location permission.
+      // You may want to display a message or take appropriate action.
+    }
+  }
+
+  Future<void> _getCurrentLocation() async {
+    try {
+      currentPosition = await Geolocator.getCurrentPosition();
+      if (mounted) {
+        setState(() {});
+      }
+    } catch (e) {
+      // Handle errors related to getting the location.
+      print("Error getting location: $e");
+    }
   }
 
   Future<void> initial() async {
@@ -55,6 +80,7 @@ class _SearchMasjidScreenState extends State<SearchMasjidScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: scaffoldKey,
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: AppColors.primaryColor,
@@ -62,9 +88,7 @@ class _SearchMasjidScreenState extends State<SearchMasjidScreen> {
           padding: EdgeInsets.only(left: 24.w),
           child: GestureDetector(
             onTap: () {
-              // scaffoldKey.currentState?.openDrawer();
-              Scaffold.of(context).openDrawer();
-              // }); // scaffoldKey.currentState?.openDrawer();
+              scaffoldKey.currentState?.openDrawer();
             },
             child: Image(
                 height: 24.h,
