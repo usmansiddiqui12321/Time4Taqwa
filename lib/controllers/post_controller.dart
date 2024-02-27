@@ -1,11 +1,8 @@
 import 'dart:developer';
 import 'dart:io';
-import 'package:http/http.dart';
 import 'package:time4taqwa/exportall.dart';
-
 import 'package:time4taqwa/models/create_donation_model.dart';
-import 'package:time4taqwa/services/create_post_service.dart';
-import 'package:time4taqwa/widgets/custom_dialogboxes.dart';
+import 'package:time4taqwa/services/post_service.dart';
 
 class PostController extends GetxController {
   RxBool isloading = false.obs;
@@ -37,7 +34,41 @@ class PostController extends GetxController {
       CustomWidgets.customsnackbar(
           message: "Donation Post Created Successfully", isError: false);
     } catch (e) {
-      CustomWidgets.customsnackbar(message: e.toString(), isError: false);
+      CustomWidgets.customsnackbar(message: e.toString(), isError: true);
+      log("e ====> $e");
+    } finally {
+      isloading(false);
+    }
+  }
+
+  Future<void> editPost(
+      {required String title,
+      required String description,
+      required String amount,
+      required String mosqueName,
+      required String postId,
+      // required String email,
+      required List images,
+      required BuildContext context,
+      required TabController tabController}) async {
+    try {
+      isloading(true);
+      var result = await PostService().editPost(
+          title: title,
+          postId: postId,
+          amount: amount,
+          images: images,
+          description: description,
+          mosqueName: mosqueName,
+          email:
+              authController.caretakerloginmodel.value.data?.caretaker?.email ??
+                  "");
+// BACK TWO TIMEs
+      Get.close(2);
+      CustomWidgets.customsnackbar(
+          message: "Donation Post Edited Successfully", isError: false);
+    } catch (e) {
+      CustomWidgets.customsnackbar(message: e.toString(), isError: true);
       log("e ====> $e");
     } finally {
       isloading(false);

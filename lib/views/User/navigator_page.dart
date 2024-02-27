@@ -19,11 +19,14 @@ class _NavigatorPageState extends State<NavigatorPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: GetBuilder(
-        init: RoutingController(),
-        builder: (controller) {
-          return screens[controller.currentbottom];
-        },
+      body: PopScope(
+        canPop: false,
+        child: GetBuilder(
+          init: RoutingController(),
+          builder: (controller) {
+            return screens[controller.currentbottom];
+          },
+        ),
       ),
       bottomNavigationBar: GetBuilder(
         init: RoutingController(),

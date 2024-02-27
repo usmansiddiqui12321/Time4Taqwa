@@ -1,12 +1,13 @@
 class AppUrls {
-  static const String initialurl = "https://creepy-elk-gown.cyclic.app/";
+  static const String initialurl = "https://tame-shirt-eel.cyclic.app/";
   static const String userloginurl = "${initialurl}api/users/login";
   static const String adminloginurl = "${initialurl}api/caretaker/login";
   static const String signupurl = "${initialurl}api/users/signup";
   static const String allmasjids = "${initialurl}api/mosques";
   static const String updateNamazTime =
       "${initialurl}api/caretaker/update/"; // ID HERE
-  static const String createpost = "${initialurl}api/donation";
+  static const String createpost = "${initialurl}api/donation/";
+  static const String editpost = "${initialurl}api/donation/update/";
   static const String getalldonationurl = "${initialurl}api/donation";
   static const String deletedonationurl =
       "${initialurl}api/donation/"; //donation id

@@ -1,14 +1,10 @@
-import 'package:dotted_border/dotted_border.dart';
-import 'package:time4taqwa/controllers/post_controller.dart';
 import 'package:time4taqwa/exportall.dart';
-import 'package:time4taqwa/views/admin/edit_post_details.dart';
-import 'package:time4taqwa/widgets/custom_dialogboxes.dart';
 
 class AdminPostDetailPage extends StatefulWidget {
   // final String imageUrl;
-  final List<String>? donations;
+  final List donations;
   final String masjidname, amount, description, title, id;
-
+  final TabController tabController;
   const AdminPostDetailPage(
       {super.key,
       required this.donations,
@@ -16,7 +12,8 @@ class AdminPostDetailPage extends StatefulWidget {
       required this.amount,
       required this.description,
       required this.id,
-      required this.title});
+      required this.title,
+      required this.tabController});
 
   @override
   State<AdminPostDetailPage> createState() => _AdminPostDetailPageState();
@@ -210,6 +207,8 @@ class _AdminPostDetailPageState extends State<AdminPostDetailPage> {
                 masjidname: widget.masjidname,
                 title: widget.title,
                 donations: widget.donations,
+                postId: widget.id,
+                tabController: widget.tabController,
               ));
         },
         child: Container(

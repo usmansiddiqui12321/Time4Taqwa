@@ -1,5 +1,8 @@
 import 'package:time4taqwa/controllers/home_page_controller.dart';
 import 'package:time4taqwa/exportall.dart';
+import 'package:time4taqwa/views/User/islamic_calender.dart';
+import 'package:time4taqwa/views/User/qaza_namaz_screen.dart';
+import 'package:time4taqwa/views/User/tasbeeh_counter.dart';
 import 'package:time4taqwa/views/User/zakat_calculator.dart';
 
 class HomePage extends StatefulWidget {
@@ -129,30 +132,70 @@ class _HomePageState extends State<HomePage> {
               10.h.verticalSpace,
               //! FEATURES
               Container(
-                height: 200.h,
-                width: Get.width,
-                decoration: BoxDecoration(
-                    color: Colors.transparent,
-                    borderRadius: BorderRadius.circular(15.r),
-                    border:
-                        Border.all(width: 2, color: AppColors.lightTextColor)),
-                child: Column(
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        Get.to(() => const ZakatCalculatorScreen());
-                      },
-                      child: Container(
-                        height: 60.h,
-                        width: 50.w,
-                        decoration: BoxDecoration(
-                            color: AppColors.containerColor,
-                            borderRadius: BorderRadius.circular(12.r)),
+                  height: 200.h,
+                  width: Get.width,
+                  decoration: BoxDecoration(
+                      color: Colors.transparent,
+                      borderRadius: BorderRadius.circular(15.r),
+                      border: Border.all(
+                          width: 2, color: AppColors.lightTextColor)),
+                  child: ListView(
+                    children: [
+                      5.h.verticalSpace,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          20.w.horizontalSpace,
+                          FeaturesIcon(
+                            title: "Calender",
+                            ontap: () {
+                              Get.to(() => const HijriDatePickerScreen());
+                            },
+                            display: const Icon(Icons.calendar_month),
+                          ),
+                          20.w.horizontalSpace,
+                          FeaturesIcon(
+                            title: "Zakat\nCounter",
+                            ontap: () {
+                              Get.to(() => const ZakatCalculatorScreen());
+                            },
+                            display: const ImageIcon(
+                              AssetImage("assets/zakat.png"),
+                              color: Colors.white,
+                            ),
+                          ),
+                          20.w.horizontalSpace,
+                          FeaturesIcon(
+                            title: "Qaza\nNamaz",
+                            ontap: () {
+                              Get.to(() => QazaNamazCounterScreen());
+                            },
+                            display: const ImageIcon(
+                              AssetImage("assets/praying.png"),
+                              color: Colors.white,
+                            ),
+                          ),
+                          20.w.horizontalSpace,
+                        ],
                       ),
-                    )
-                  ],
-                ),
-              ),
+                      5.h.verticalSpace,
+                      Row(
+                        children: [
+                          20.w.horizontalSpace,
+                          FeaturesIcon(
+                            title: "Tasbeeh",
+                            ontap: () {
+                              Get.to(() => const TasbeehScreen());
+                            },
+                            display: const ImageIcon(
+                              AssetImage("assets/beads.png"),
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ).paddingOnly(left: 10.w)
+                    ],
+                  )),
               10.h.verticalSpace,
               Text(
                 "Following",
@@ -252,6 +295,53 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       )),
+    );
+  }
+}
+
+class FeaturesIcon extends StatelessWidget {
+  final Widget display;
+  final String title;
+  final void Function()? ontap;
+
+  const FeaturesIcon({
+    Key? key,
+    required this.display,
+    this.ontap,
+    required this.title,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 102.h,
+      child: Column(
+        children: [
+          GestureDetector(
+            onTap: ontap,
+            child: Container(
+              height: 60.h,
+              width: 50.w,
+              decoration: BoxDecoration(
+                color: AppColors.containerColor,
+                borderRadius: BorderRadius.circular(12.r),
+              ),
+              child: Center(
+                child: SizedBox(
+                  width: 30.w, // Adjust the width as needed
+                  height: 30.h, // Adjust the height as needed
+                  child: display,
+                ),
+              ),
+            ),
+          ),
+          5.h.verticalSpace,
+          Text(
+            title,
+            style: TextStyle(color: Colors.white, fontSize: 10.sp),
+          ),
+        ],
+      ),
     );
   }
 }

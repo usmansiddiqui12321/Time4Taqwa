@@ -43,16 +43,17 @@ class AuthController extends GetxController {
         setloading(value: false);
 
         // Handle authentication error
-        CustomWidgets.customsnackbar(
-            isError: true, message: jsonData['message']);
+        // CustomWidgets.customsnackbar(
+        //     isError: true, message: jsonData['message']);
         log('Authentication error: ${response.statusCode}, Message: ${jsonData['message']}');
         throw jsonData['message'];
       }
-    }on SocketException {
-      CustomWidgets.customsnackbar(message: "No internet connection", isError: true);
+    } on SocketException {
+      CustomWidgets.customsnackbar(
+          message: "No internet connection", isError: true);
     } catch (error) {
       setloading(value: false);
-      CustomWidgets.customsnackbar(isError: true, message: 'Network error');
+      CustomWidgets.customsnackbar(isError: true, message: error.toString());
       log('Error during authentication: $error');
     } finally {
       setloading(value: false);
@@ -98,19 +99,23 @@ class AuthController extends GetxController {
         setloading(value: false);
 
         // Handle authentication error
-        CustomWidgets.customsnackbar(
-          isError: true,
-          message: "Error : ${response.statusCode}",
-        );
+        // CustomWidgets.customsnackbar(
+        //   isError: true,
+        //   message: "Error : ${response.statusCode}",
+        // );
+
         log('Authentication error: ${response.statusCode}, Message: ${jsonData['status']}');
+
+        throw jsonData['message'];
       }
-    }on SocketException {
-      CustomWidgets.customsnackbar(message: "No internet connection", isError: true);
+    } on SocketException {
+      CustomWidgets.customsnackbar(
+          message: "No internet connection", isError: true);
     } catch (error) {
       setloading(value: false);
 
       // Handle general error, e.g., network error
-      CustomWidgets.customsnackbar(isError: true, message: 'Network error');
+      CustomWidgets.customsnackbar(isError: true, message: error.toString());
       log('Error during authentication: $error');
     } finally {
       setloading(value: false);
@@ -144,15 +149,18 @@ class AuthController extends GetxController {
             isError: false, message: 'Logged In Successfully');
       } else {
         setloading(value: false);
-        CustomWidgets.customsnackbar(
-            isError: true, message: jsonData['message']);
+
+        // CustomWidgets.customsnackbar(
+        //     isError: true, message: jsonData['message']);
         log('Authentication error: ${response.statusCode}, Message: ${jsonData['message']}');
+        throw jsonData['message'];
       }
-    }on SocketException {
-      CustomWidgets.customsnackbar(message: "No internet connection", isError: true);
+    } on SocketException {
+      CustomWidgets.customsnackbar(
+          message: "No internet connection", isError: true);
     } catch (error) {
       setloading(value: false);
-      CustomWidgets.customsnackbar(isError: true, message: 'Network error');
+      CustomWidgets.customsnackbar(isError: true, message: error.toString());
       log('Error during authentication: $error');
     } finally {
       setloading(value: false);

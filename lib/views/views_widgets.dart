@@ -1,3 +1,5 @@
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
+
 import '../exportall.dart';
 
 class AgreeTermsTextCard extends StatelessWidget {
@@ -109,6 +111,7 @@ class _CustomSocialButtonState extends State<CustomSocialButton>
     );
   }
 }
+
 class PrimaryButton extends StatefulWidget {
   final VoidCallback onTap;
   final String text;
@@ -123,7 +126,7 @@ class PrimaryButton extends StatefulWidget {
     required this.text,
     this.height,
     this.width,
-   required this.isloading,
+    required this.isloading,
     this.borderRadius,
     this.fontSize,
     this.color,
@@ -186,17 +189,17 @@ class _PrimaryButtonState extends State<PrimaryButton>
               color: widget.color ?? const Color(0xFFD1A661),
               borderRadius: BorderRadius.circular(widget.borderRadius ?? 20),
             ),
-            child:
-            widget.isloading ? CustomWidgets.isloading : 
-             Text(
-              widget.text,
-              style: TextStyle(
-                  color: widget.color == null
-                      ? AppColors.primaryColor
-                      : Colors.black,
-                  fontSize: widget.fontSize ?? 16,
-                  fontWeight: FontWeight.w600),
-            ),
+            child: widget.isloading
+                ? CustomWidgets.isloading
+                : Text(
+                    widget.text,
+                    style: TextStyle(
+                        color: widget.color == null
+                            ? AppColors.primaryColor
+                            : Colors.black,
+                        fontSize: widget.fontSize ?? 16,
+                        fontWeight: FontWeight.w600),
+                  ),
           ),
         ),
       ),
@@ -325,62 +328,74 @@ class _AuthFieldState extends State<AuthField> {
               color: widget.titleColor ?? const Color(0xFF78828A)),
         ),
         const SizedBox(height: 5),
-        TextFormField(
-          controller: widget.controller,
-          validator: widget.validator,
-          maxLines: widget.isPassword ? 1 : widget.maxLines,
-          // ignore: avoid_bool_literals_in_conditional_expressions
-          obscureText: widget.isPassword ? isObscure : false,
-          textInputAction: widget.textInputAction,
-          keyboardType: widget.keyboardType,
-          style: TextStyle(color: AppColors.primaryColor),
-          decoration: InputDecoration(
-            enabledBorder: OutlineInputBorder(
-              borderSide: const BorderSide(
-                color: Colors.grey,
-                width: 1,
+        KeyboardVisibilityBuilder(builder: (context, isKeyboardVisible) {
+          if (isKeyboardVisible) {
+            // when keyboard is visible
+          } else {
+            // when keyboard is invisible
+            SystemChrome.restoreSystemUIOverlays();
+          }
+          return TextFormField(
+            onTapOutside: (val) {
+              FocusManager.instance.primaryFocus?.unfocus();
+              SystemChrome.restoreSystemUIOverlays();
+            },
+            controller: widget.controller,
+            validator: widget.validator,
+            maxLines: widget.isPassword ? 1 : widget.maxLines,
+            // ignore: avoid_bool_literals_in_conditional_expressions
+            obscureText: widget.isPassword ? isObscure : false,
+            textInputAction: widget.textInputAction,
+            keyboardType: widget.keyboardType,
+            style: const TextStyle(color: AppColors.primaryColor),
+            decoration: InputDecoration(
+              enabledBorder: OutlineInputBorder(
+                borderSide: const BorderSide(
+                  color: Colors.grey,
+                  width: 1,
+                ),
+                borderRadius: BorderRadius.circular(15.0),
               ),
-              borderRadius: BorderRadius.circular(15.0),
-            ),
-            focusedErrorBorder: OutlineInputBorder(
-              borderSide: BorderSide(
-                color: Colors.red.withOpacity(.5),
-                width: 1,
+              focusedErrorBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: Colors.red.withOpacity(.5),
+                  width: 1,
+                ),
+                borderRadius: BorderRadius.circular(15.0),
               ),
-              borderRadius: BorderRadius.circular(15.0),
-            ),
-            errorBorder: OutlineInputBorder(
-              borderSide: BorderSide(
-                color: Colors.red.withOpacity(.5),
-                width: 1,
+              errorBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: Colors.red.withOpacity(.5),
+                  width: 1,
+                ),
+                borderRadius: BorderRadius.circular(15.0),
               ),
-              borderRadius: BorderRadius.circular(15.0),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderSide: const BorderSide(
-                color: Colors.grey,
-                width: 1,
+              focusedBorder: OutlineInputBorder(
+                borderSide: const BorderSide(
+                  color: Colors.grey,
+                  width: 1,
+                ),
+                borderRadius: BorderRadius.circular(15.0),
               ),
-              borderRadius: BorderRadius.circular(15.0),
+              fillColor: const Color(0xffF4EEFF).withOpacity(.9),
+              filled: true,
+              hintText: widget.hintText,
+              hintStyle: const TextStyle(color: AppColors.kGrey60),
+              suffixIcon: widget.isPassword
+                  ? IconButton(
+                      onPressed: () {
+                        setState(() {
+                          isObscure = !isObscure;
+                        });
+                      },
+                      icon: Icon(
+                          isObscure ? Icons.visibility : Icons.visibility_off,
+                          color: const Color(0xFF171725)),
+                    )
+                  : null,
             ),
-            fillColor: const Color(0xffF4EEFF).withOpacity(.9),
-            filled: true,
-            hintText: widget.hintText,
-            hintStyle: const TextStyle(color: AppColors.kGrey60),
-            suffixIcon: widget.isPassword
-                ? IconButton(
-                    onPressed: () {
-                      setState(() {
-                        isObscure = !isObscure;
-                      });
-                    },
-                    icon: Icon(
-                        isObscure ? Icons.visibility : Icons.visibility_off,
-                        color: const Color(0xFF171725)),
-                  )
-                : null,
-          ),
-        ),
+          );
+        }),
       ],
     );
   }

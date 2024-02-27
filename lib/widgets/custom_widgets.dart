@@ -1,4 +1,5 @@
 import 'package:time4taqwa/exportall.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 
 class CustomWidgets {
   static CircularProgressIndicator isloading = const CircularProgressIndicator(
@@ -20,40 +21,51 @@ class NeumorphicSearchField extends StatelessWidget {
   Widget build(BuildContext context) {
     final focus = FocusNode();
     return PrimaryContainer(
-      child: TextFormField(
-        focusNode: focus,
-        onTapOutside: (val) {
-          if (kDebugMode) {
-            print('onTapOutside');
-          }
-          FocusManager.instance.primaryFocus?.unfocus();
-        },
-        onChanged: onSearchChanged,
-        keyboardType: TextInputType.text,
-        style: const TextStyle(fontSize: 16, color: Colors.white),
-        textAlignVertical: TextAlignVertical.center,
-        controller: searchController,
-        decoration: InputDecoration(
-          contentPadding: const EdgeInsets.only(left: 20, right: 20, bottom: 3),
-          border: InputBorder.none,
-          focusedBorder: InputBorder.none,
-          errorBorder: InputBorder.none,
-          disabledBorder: InputBorder.none,
-          enabledBorder: InputBorder.none,
-          hintText: 'Search',
-          hintStyle: const TextStyle(fontSize: 14, color: Colors.grey),
-          suffixIcon: Container(
-            width: 70,
-            decoration: BoxDecoration(
-                gradient: const LinearGradient(colors: [
-                  Color(0XFF5E5E5E),
-                  Color(0XFF3E3E3E),
-                ], begin: Alignment.centerLeft, end: Alignment.centerRight),
-                borderRadius: BorderRadius.circular(30)),
-            child: const Icon(Icons.search, color: AppColors.lightTextColor),
+      child: KeyboardVisibilityBuilder(builder: (context, isKeyboardVisible) {
+        if (isKeyboardVisible) {
+          // when keyboard is visible
+        } else {
+          // when keyboard is invisible
+          SystemChrome.restoreSystemUIOverlays();
+        }
+
+        return TextFormField(
+          focusNode: focus,
+          onTapOutside: (val) {
+            if (kDebugMode) {
+              print('onTapOutside');
+            }
+            FocusManager.instance.primaryFocus?.unfocus();
+            SystemChrome.restoreSystemUIOverlays();
+          },
+          onChanged: onSearchChanged,
+          keyboardType: TextInputType.text,
+          style: const TextStyle(fontSize: 16, color: Colors.white),
+          textAlignVertical: TextAlignVertical.center,
+          controller: searchController,
+          decoration: InputDecoration(
+            contentPadding:
+                const EdgeInsets.only(left: 20, right: 20, bottom: 3),
+            border: InputBorder.none,
+            focusedBorder: InputBorder.none,
+            errorBorder: InputBorder.none,
+            disabledBorder: InputBorder.none,
+            enabledBorder: InputBorder.none,
+            hintText: 'Search',
+            hintStyle: const TextStyle(fontSize: 14, color: Colors.grey),
+            suffixIcon: Container(
+              width: 70,
+              decoration: BoxDecoration(
+                  gradient: const LinearGradient(colors: [
+                    Color(0XFF5E5E5E),
+                    Color(0XFF3E3E3E),
+                  ], begin: Alignment.centerLeft, end: Alignment.centerRight),
+                  borderRadius: BorderRadius.circular(30)),
+              child: const Icon(Icons.search, color: AppColors.lightTextColor),
+            ),
           ),
-        ),
-      ),
+        );
+      }),
     );
   }
 }

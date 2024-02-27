@@ -53,7 +53,8 @@ class _DonationPageState extends State<DonationPage> {
             : GridView.builder(
                 shrinkWrap: true,
                 itemCount: donationController
-                    .getalldonationmodel.value.data?.donations?.length,
+                        .getalldonationmodel.value.data?.donations?.length ??
+                    0,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisSpacing: 10.w,
                     childAspectRatio: 2,

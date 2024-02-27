@@ -71,9 +71,14 @@ class _YourPostsState extends State<YourPosts> {
                         Get.to(() => AdminPostDetailPage(
                                   title: title,
                                   masjidname: masjidName,
+                                  tabController: widget.tabController,
                                   id: id,
-                                  donations: donationController.getdonationmodel
-                                      .value.data?.donations?[index].images,
+                                  donations: donationController
+                                      .getdonationmodel
+                                      .value
+                                      .data
+                                      ?.donations?[index]
+                                      .images as List,
                                   amount: amount,
                                   description: description,
                                   // imageUrl: donationController.getdonationmodel.value

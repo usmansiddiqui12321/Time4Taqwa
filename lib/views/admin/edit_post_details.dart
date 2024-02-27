@@ -1,17 +1,26 @@
+import 'dart:developer';
+import 'dart:io';
+
 import 'package:dotted_border/dotted_border.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:time4taqwa/controllers/post_controller.dart';
 import 'package:time4taqwa/exportall.dart';
 import 'package:time4taqwa/widgets/custom_textformfield.dart';
 
 class EditPostDetails extends StatefulWidget {
-  final String title, description, amount, masjidname;
-  List<String>? donations;
+  final String title, description, amount, masjidname, postId;
+  List donations;
+  final TabController tabController;
+  @override
   EditPostDetails({
     super.key,
     required this.donations,
     required this.title,
     required this.masjidname,
+    required this.postId,
     required this.amount,
     required this.description,
+    required this.tabController,
   });
 
   @override
@@ -19,7 +28,45 @@ class EditPostDetails extends StatefulWidget {
 }
 
 class _EditPostDetailsState extends State<EditPostDetails> {
-  List<String>? tempList = [];
+  final ImagePicker picker = ImagePicker();
+  ImageProvider _getImageProvider(dynamic item) {
+    if (item is String) {
+      // If it's a String, assume it's a network image URL
+      return NetworkImage(item);
+    } else if (item is File) {
+      // If it's a File, use FileImage
+      return FileImage(item);
+    } else {
+      // Handle other cases if needed
+      return const AssetImage('path/to/placeholder_image.jpg');
+    }
+  }
+
+  void pickMultipleImages() async {
+    try {
+      // setState(() {
+      //   isLoading = true;
+      // });
+      final result = await picker.pickImage(source: ImageSource.gallery);
+      if (result != null) {
+        tempList.add(
+          File(result.path.toString()),
+        );
+        setState(() {});
+      }
+      // setState(() {
+      //   isLoading = false;
+      // });
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+      // isLoading = false;
+    }
+  }
+
+  final postController = Get.put(PostController());
+  List tempList = [];
   final titleController = TextEditingController();
   final amountController = TextEditingController();
   final descriptionController = TextEditingController();
@@ -28,9 +75,7 @@ class _EditPostDetailsState extends State<EditPostDetails> {
     titleController.text = widget.title;
     amountController.text = widget.amount;
     descriptionController.text = widget.description;
-    // tempList?.add(widget.donations);
-    // tempList = widget.donations;
-    tempList?.addAll(widget.donations!);
+    tempList.addAll(widget.donations);
     super.initState();
   }
 
@@ -43,7 +88,7 @@ class _EditPostDetailsState extends State<EditPostDetails> {
       ),
       body: SingleChildScrollView(
         child: SizedBox(
-          height: .9.sh,
+          height: 1.sh,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -61,8 +106,9 @@ class _EditPostDetailsState extends State<EditPostDetails> {
                   ),
                   10.h.verticalSpace,
                   GridView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
-                    itemCount: tempList?.length,
+                    itemCount: tempList.length,
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisSpacing: 10.w,
                         childAspectRatio: 2,
@@ -81,59 +127,128 @@ class _EditPostDetailsState extends State<EditPostDetails> {
                               borderRadius:
                                   const BorderRadius.all(Radius.circular(12)),
                               child: Container(
+                                clipBehavior: Clip.none,
                                 width: 200.w,
                                 decoration: BoxDecoration(
-                                    color: Colors.transparent,
-                                    borderRadius: const BorderRadius.all(
-                                        Radius.circular(12)),
-                                    image: DecorationImage(
-                                        fit: BoxFit.cover,
-                                        image: NetworkImage(
-                                            tempList?[index] ?? ""))),
+                                  color: Colors.transparent,
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(12)),
+                                  image: DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: _getImageProvider(tempList[index]),
+                                  ),
+                                ),
                               ),
                             ),
                           ),
-                          Positioned(
-                              top: -5.0,
-                              right: -5.0,
-                              child: InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    tempList?.removeAt(index);
-                                  });
-                                },
-                                child: Container(
-                                  decoration: const BoxDecoration(
-                                      color: Colors.red,
-                                      shape: BoxShape.circle),
-                                  child: Icon(
-                                    Icons.close,
-                                    color: Colors.white,
-                                    size: 18.sp,
-                                  ),
-                                ),
-                              )),
+                          tempList.length == 1
+                              ? const SizedBox.shrink()
+                              : Positioned(
+                                  top: -5.0,
+                                  right: -5.0,
+                                  child: InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        tempList.removeAt(index);
+                                        log("IMAGESSSS   ++++++ ======> $tempList");
+                                      });
+                                    },
+                                    child: Container(
+                                      decoration: const BoxDecoration(
+                                          color: Colors.red,
+                                          shape: BoxShape.circle),
+                                      child: Icon(
+                                        Icons.close,
+                                        color: Colors.white,
+                                        size: 18.sp,
+                                      ),
+                                    ),
+                                  )),
                         ],
                       );
                     },
                   ),
                   // 15.h.verticalSpace,
+                  10.h.verticalSpace,
+                  tempList.length == 5
+                      ? const SizedBox.shrink()
+                      : DottedBorder(
+                          borderType: BorderType.RRect,
+                          color: Colors.white,
+                          radius: const Radius.circular(12),
+                          child: ClipRRect(
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(12)),
+                            child: GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  pickMultipleImages();
+                                  log("IMAGESSSS   ++++++ ======> $tempList");
+                                });
+                              },
+                              child: Container(
+                                width: Get.width,
+                                height: 100,
+                                decoration: const BoxDecoration(
+                                  color: Colors.transparent,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(12)),
+                                ),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    const Icon(
+                                      Icons.add_photo_alternate_outlined,
+                                      color: Colors.white,
+                                    ),
+                                    10.h.verticalSpace,
+                                    const Text("Add Image"),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
                   TitlewithTextEditor(
-                      title: "Title", controller: titleController),
+                    title: "Title",
+                    controller: titleController,
+                    maxLines: 1,
+                  ),
                   10.h.verticalSpace,
                   TitlewithTextEditor(
                     title: "Amount",
                     controller: amountController,
+                    maxLines: 1,
                     textInputType: TextInputType.number,
                   ),
                   10.h.verticalSpace,
                   TitlewithTextEditor(
-                      title: "Description", controller: descriptionController),
+                      title: "Description",
+                      controller: descriptionController,
+                      maxLines: 4),
                   // 10.h.verticalSpace,
                 ],
               ).paddingSymmetric(horizontal: 20.w),
               GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  // log(message);
+                  log("IMAGESSSS   ++++++ ======> $tempList");
+
+                  if (tempList.isEmpty) {
+                    CustomWidgets.customsnackbar(
+                        message: "Please Add Image", isError: true);
+                  } else {
+                    postController.editPost(
+                        title: titleController.text,
+                        description: descriptionController.text,
+                        amount: amountController.text,
+                        mosqueName: widget.masjidname,
+                        postId: widget.postId,
+                        images: tempList,
+                        context: context,
+                        tabController: widget.tabController);
+                  }
+                },
                 child: Container(
                   width: Get.width,
                   height: 50.h,
@@ -160,6 +275,7 @@ class _EditPostDetailsState extends State<EditPostDetails> {
 }
 
 class TitlewithTextEditor extends StatelessWidget {
+  final int? maxLines;
   final String title;
   final TextInputType? textInputType;
   final TextEditingController controller;
@@ -167,7 +283,8 @@ class TitlewithTextEditor extends StatelessWidget {
       {super.key,
       required this.title,
       required this.controller,
-      this.textInputType});
+      this.textInputType,
+      this.maxLines});
 
   @override
   Widget build(BuildContext context) {
@@ -181,7 +298,7 @@ class TitlewithTextEditor extends StatelessWidget {
         8.h.verticalSpace,
         CustomTextFormField(
           keyboardType: textInputType,
-          maxLines: 3,
+          maxLines: maxLines,
           minLines: 1,
           labelText: title,
           controller: controller,

@@ -31,28 +31,57 @@ class _ZakatCalculatorScreenState extends State<ZakatCalculatorScreen> {
               style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16.0),
-            // TextField(
-            //   controller: savingsController,
-            //   keyboardType: TextInputType.number,
-            //   decoration:
-            //       const InputDecoration(labelText: 'Total Savings (in USD)'),
-            // ),
-            CustomTextFormField( controller:savingsController, maxLines: 1 ),
-            const SizedBox(height: 16.0),
-            TextField(
-              controller: debtsController,
+            CustomTextFormField(
+              controller: savingsController,
+              maxLines: 1,
+              labelText: "Savings",
+              hint: "Enter Your Total Savings",
               keyboardType: TextInputType.number,
-              decoration:
-                  const InputDecoration(labelText: 'Total Debts (in USD)'),
+            ),
+            const SizedBox(height: 16.0),
+            CustomTextFormField(
+              controller: debtsController,
+              labelText: "Debts",
+              maxLines: 1,
+              hint: "Enter Total Debts",
+              keyboardType: TextInputType.number,
             ),
             const SizedBox(height: 32.0),
-            ElevatedButton(
-              onPressed: calculateZakat,
-              child: const Text('Calculate Zakat'),
+            Center(
+              child: ElevatedButton(
+                onPressed: calculateZakat,
+                child: const Text('Calculate Zakat'),
+              ),
             ),
-            const SizedBox(height: 16.0),
-            Text('Total Wealth: \$${totalWealth.toStringAsFixed(2)}'),
-            Text('Zakat Amount: \$${zakatAmount.toStringAsFixed(2)}'),
+            20.h.verticalSpace,
+            Row(
+              children: [
+                Text(
+                  "Total Wealth: ",
+                  style: TextStyle(color: Colors.white, fontSize: 20.sp),
+                ),
+                Text(
+                  'Rs${totalWealth.toStringAsFixed(2)}',
+                  style: TextStyle(fontSize: 18.sp),
+                ),
+              ],
+            ),
+            10.h.verticalSpace,
+            Row(
+              children: [
+                Text(
+                  "Zakat Amount: ",
+                  style: TextStyle(color: Colors.white, fontSize: 20.sp),
+                ),
+                Text(
+                  ' Rs${zakatAmount.toStringAsFixed(2)}',
+                  style: TextStyle(fontSize: 18.sp),
+                ),
+              ],
+            )
+            // const SizedBox(height: 16.0),
+            // Text('Total Wealth: Rs${totalWealth.toStringAsFixed(2)}'),
+            // Text(),
           ],
         ),
       ),
@@ -65,7 +94,7 @@ class _ZakatCalculatorScreenState extends State<ZakatCalculatorScreen> {
 
     setState(() {
       totalWealth = savings - debts;
-      zakatAmount = totalWealth * 0.025; // 2.5% of total wealth
+      zakatAmount = totalWealth * 0.025; // 2.5% of total wealth in PKR
     });
   }
 }

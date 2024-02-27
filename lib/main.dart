@@ -5,11 +5,19 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Stripe.publishableKey =
       'pk_test_51Og9eBJqpCXg0W6pCcpJzhRJ0cr7c6fg9WhO2kjDOOoTXCWHALQYRmyHfZjm6yojlJMNrhvFNKOsltZAGw5lR0cr00fhiEDNsf';
-  SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky,
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive,
       overlays: [SystemUiOverlay.top]);
+
+  // Set system UI overlay style for status bar
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
   );
+
+  // Prevent screen from rotating based on device orientation
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
   runApp(const MyApp());
 }
 

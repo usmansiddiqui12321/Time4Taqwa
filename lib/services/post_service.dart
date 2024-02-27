@@ -16,7 +16,6 @@ class PostService {
     required List<File?> images,
   }) async {
     var url = Uri.parse(AppUrls.createpost);
-
     var request = http.MultipartRequest('POST', url);
     for (int i = 0; i < images.length; i++) {
       var multipartFile = await http.MultipartFile.fromPath(
@@ -35,9 +34,6 @@ class PostService {
     request.fields['mosqueName'] = mosqueName;
     request.fields['email'] = email;
     request.fields['description'] = description;
-
-    //! ADD Headers
-    // request.headers.addAll(header);
     var streamedResponse = await request.send();
     var response = await http.Response.fromStream(streamedResponse);
     var jsonData = jsonDecode(response.body);
@@ -52,6 +48,77 @@ class PostService {
       CustomWidgets.customsnackbar(
           message: "Something went wrong", isError: true);
       throw message;
+    }
+  }
+
+  Future<void> editPost({
+    required String title,
+    required String amount,
+    required String mosqueName,
+    required String description,
+    required String postId,
+    required String email,
+    required List images,
+  }) async {
+    var url = Uri.parse('${AppUrls.editpost}$postId');
+    var request = http.MultipartRequest('PUT', url);
+
+    for (int i = 0; i < images.length; i++) {
+      if (images[i] is String) {
+        request.fields['images[$i]'] = images[i].toString();
+      } else if (images[i] is File) {
+        var multipartFile = await http.MultipartFile.fromPath(
+          'images[]',
+          images[i].path,
+          filename: images[i].path.split('/').last,
+          contentType: MediaType(
+            'image',
+            images[i].path.split('.').last,
+          ),
+        );
+        request.files.add(multipartFile);
+      }
+    }
+
+    // Set fields outside the loop
+    request.fields['title'] = title;
+    request.fields['amount'] = amount;
+    request.fields['mosqueName'] = mosqueName;
+    request.fields['email'] = email;
+    request.fields['description'] = description;
+
+    //! ADD Headers
+    // request.headers.addAll(header);
+
+    try {
+      var streamedResponse = await request.send();
+      var response = await http.Response.fromStream(streamedResponse);
+      var jsonData = jsonDecode(response.body);
+      var message = jsonData['message'];
+      log("Api Called: $url");
+      log("status: ${response.statusCode}");
+      log("Api Response: ${response.body}");
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        // return CreatePostModel.fromJson(jsonData);
+      } else {
+        log("From Post Service");
+        CustomWidgets.customsnackbar(
+          message: "Something went wrong",
+          isError: true,
+        );
+        throw message;
+      }
+    } catch (error) {
+      // Handle exceptions
+      if (kDebugMode) {
+        print("Error: $error");
+      }
+      CustomWidgets.customsnackbar(
+        message: "Error: $error",
+        isError: true,
+      );
+      rethrow;
     }
   }
 
@@ -73,5 +140,6 @@ class PostService {
       log("From delete${response.statusCode}");
       // throw jsonData['succ'];
     }
+    return null;
   }
 }
