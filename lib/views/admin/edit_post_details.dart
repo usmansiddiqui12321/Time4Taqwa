@@ -1,9 +1,6 @@
 import 'dart:developer';
 import 'dart:io';
-
-import 'package:dotted_border/dotted_border.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:time4taqwa/controllers/post_controller.dart';
 import 'package:time4taqwa/exportall.dart';
 import 'package:time4taqwa/widgets/custom_textformfield.dart';
 
@@ -249,22 +246,24 @@ class _EditPostDetailsState extends State<EditPostDetails> {
                         tabController: widget.tabController);
                   }
                 },
-                child: Container(
-                  width: Get.width,
-                  height: 50.h,
-                  decoration: BoxDecoration(
-                      color: AppColors.lightTextColor,
-                      borderRadius: BorderRadius.circular(10.r)),
-                  child: Center(
-                    child: Text(
-                      "Save",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.primaryColor,
-                          fontSize: 16.sp),
-                    ),
-                  ),
-                ).paddingSymmetric(vertical: 20.h, horizontal: 20.w),
+                child: postController.isloading.value
+                    ? CustomWidgets.isloading
+                    : Container(
+                        width: Get.width,
+                        height: 50.h,
+                        decoration: BoxDecoration(
+                            color: AppColors.lightTextColor,
+                            borderRadius: BorderRadius.circular(10.r)),
+                        child: Center(
+                          child: Text(
+                            "Save",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: AppColors.primaryColor,
+                                fontSize: 16.sp),
+                          ),
+                        ),
+                      ).paddingSymmetric(vertical: 20.h, horizontal: 20.w),
               ),
             ],
           ),
