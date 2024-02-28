@@ -1,4 +1,5 @@
 import 'package:time4taqwa/exportall.dart';
+import 'dart:ui';
 
 class AdminPostDetailPage extends StatefulWidget {
   // final String imageUrl;
@@ -20,6 +21,33 @@ class AdminPostDetailPage extends StatefulWidget {
 }
 
 class _AdminPostDetailPageState extends State<AdminPostDetailPage> {
+   void _showCustomDialog(BuildContext context, String imageUrl) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+            child: Container(
+              color: Colors.transparent,
+              child: Container(
+                width: 300.w,
+                height: 250.h,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  image: DecorationImage(
+                    fit: BoxFit.cover,
+                    image: NetworkImage(imageUrl),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   final postcontroller = Get.put(PostController());
   @override
   Widget build(BuildContext context) {
@@ -71,18 +99,26 @@ class _AdminPostDetailPageState extends State<AdminPostDetailPage> {
               ),
             ),
             20.h.verticalSpace,
-            GridView.builder(
-                shrinkWrap: true,
-                itemCount: widget.donations?.length ?? 0,
-                // itemCount: 3,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisSpacing: 10.w,
-                    childAspectRatio: 2,
-                    mainAxisExtent: 100.h,
-                    mainAxisSpacing: 10.w,
-                    crossAxisCount: 3),
-                itemBuilder: (context, index) {
-                  return DottedBorder(
+              GridView.builder(
+              shrinkWrap: true,
+              itemCount: widget.donations.length ?? 0,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisSpacing: 10.w,
+                childAspectRatio: 2,
+                mainAxisExtent: 100.h,
+                mainAxisSpacing: 10.w,
+                crossAxisCount: 3,
+              ),
+              itemBuilder: (context, index) {
+                return GestureDetector(
+                  onLongPress: () {
+                    _showCustomDialog(context, widget.donations[index] ?? "");
+                  },
+                  onLongPressEnd: (details) {
+                    Navigator.of(context)
+                        .pop(); // Close the dialog when the long press is released
+                  },
+                  child: DottedBorder(
                     borderType: BorderType.RRect,
                     color: Colors.white,
                     radius: const Radius.circular(12),
@@ -91,28 +127,30 @@ class _AdminPostDetailPageState extends State<AdminPostDetailPage> {
                       child: Container(
                         width: 200.w,
                         decoration: BoxDecoration(
-                            color: Colors.transparent,
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(12)),
-                            image: DecorationImage(
-                                fit: BoxFit.cover,
-                                image: NetworkImage(
-                                    widget.donations?[index] ?? ""))),
+                          color: Colors.transparent,
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(12)),
+                          image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: NetworkImage(widget.donations[index] ?? ""),
+                          ),
+                        ),
                       ),
                     ),
-                  );
-                }),
+                  ),
+                );
+              },
+            ),
+          
             10.h.verticalSpace,
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
+              Container(
+              margin: const EdgeInsets.all(15),
+              padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
-                color: Colors.transparent,
-                borderRadius: BorderRadius.circular(15.r),
-                border: Border.all(
-                  width: 2,
-                  color: Colors.white,
-                ),
-              ),
+                  color: Colors.transparent,
+                  borderRadius: BorderRadius.circular(15),
+                  border: Border.all(color: Colors.white, width: 2)
+                  ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -120,83 +158,72 @@ class _AdminPostDetailPageState extends State<AdminPostDetailPage> {
                     "Details",
                     style: TextStyle(
                       decoration: TextDecoration.underline,
-                      decorationColor: Colors.white,
                       color: Colors.white,
-                      fontSize: 20.sp,
+                      fontSize: 24.sp,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  20.h.verticalSpace,
-                  Row(
-                    children: [
-                      Text(
-                        "Donation Title: ",
-                        style: TextStyle(
-                          color: AppColors.lightTextColor,
-                          fontSize: 18.sp,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        widget.title,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.normal,
-                        ),
-                      ),
-                    ],
+                  SizedBox(height: 15.h),
+
+                  // Donation Title
+                  Text(
+                    "Title",
+                    style: TextStyle(
+                      color: AppColors.lightTextColor,
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                  10.h.verticalSpace,
-                  Row(
-                    children: [
-                      Text(
-                        "Donation Amount: ",
-                        style: TextStyle(
-                          color: AppColors.lightTextColor,
-                          fontSize: 18.sp,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        widget.amount,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.normal,
-                        ),
-                      )
-                    ],
+                  Text(
+                    widget.title,
+                    maxLines: 2,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.normal,
+                    ),
                   ),
-                  10.h.verticalSpace,
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Description: ",
-                        style: TextStyle(
-                          color: AppColors.lightTextColor,
-                          fontSize: 18.sp,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Expanded(
-                        child: Text(
-                          // "This is the description of the post. It can be a bit longer to test the text wrapping and alignment.",
-                          widget.description,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.normal,
-                          ),
-                        ),
-                      ),
-                    ],
+                  SizedBox(height: 10.h),
+
+                  // Donation Amount
+                  Text(
+                    "Amount",
+                    style: TextStyle(
+                      color: AppColors.lightTextColor,
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Text(
+                    widget.amount,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.normal,
+                    ),
+                  ),
+                  SizedBox(height: 10.h),
+
+                  // Description
+                  Text(
+                    "Description",
+                    style: TextStyle(
+                      color: AppColors.lightTextColor,
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Text(
+                    widget.description,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.normal,
+                    ),
                   ),
                 ],
               ),
-            ),
-          ],
+            ),],
         ).paddingSymmetric(horizontal: 20.w),
       ),
       floatingActionButton: GestureDetector(
