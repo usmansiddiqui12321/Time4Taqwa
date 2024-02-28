@@ -129,7 +129,6 @@ class _HomePageState extends State<HomePage> {
                 style: Theme.of(context).textTheme.displayMedium,
               ),
               10.h.verticalSpace,
-              //! FEATURES
               Container(
                   height: 200.h,
                   width: Get.width,
@@ -270,7 +269,6 @@ class _HomePageState extends State<HomePage> {
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    // 5.h.verticalSpace,
                                     const Icon(Icons.location_on),
                                     20.h.verticalSpace,
                                     const Text(
@@ -327,8 +325,8 @@ class FeaturesIcon extends StatelessWidget {
               ),
               child: Center(
                 child: SizedBox(
-                  width: 30.w, // Adjust the width as needed
-                  height: 30.h, // Adjust the height as needed
+                  width: 30.w,
+                  height: 30.h,
                   child: display,
                 ),
               ),

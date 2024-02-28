@@ -259,25 +259,3 @@ class _AdminPostDetailPageState extends State<AdminPostDetailPage> {
     );
   }
 }
-
-          // GestureDetector(
-          //   onTap: () {
-          //     Get.to(EditPostDetails(
-          //       amount: '2500',
-          //       description: "dsadsadas",
-          //       imageUrls: widget.imageUrl,
-          //       title: "dsadsadsa",
-          //     ));
-          //   },
-          //   child: Container(
-          //     padding: const EdgeInsets.all(5),
-          //     decoration: const BoxDecoration(
-          //         color: AppColors.lightTextColor, shape: BoxShape.circle),
-          //     // width: 30.w,
-          //     // height: 30.h,
-          //     child: const Icon(
-          //       Icons.edit,
-          //       color: Colors.white,
-          //     ),
-          //   ).paddingOnly(right: 15.w),
-          // )

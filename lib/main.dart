@@ -22,7 +22,6 @@ Future<void> main() async {
 }
 
 class MyApp extends StatelessWidget {
-  //! NEED to Check RED comments before submission
   const MyApp({super.key});
   @override
   Widget build(BuildContext context) {

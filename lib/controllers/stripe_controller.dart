@@ -139,7 +139,6 @@ class StripeController extends GetxController {
 
         paymentIntent = null;
       }).then((value) {
-        //! PUSH HERE
         donationcontroller.pushDonation(
             mosqueName: mosqueName,
             title: title,

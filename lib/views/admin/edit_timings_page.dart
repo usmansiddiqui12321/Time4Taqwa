@@ -99,7 +99,6 @@ class _EditTimingsPageState extends State<EditTimingsPage> {
                   ? Center(child: CustomWidgets.isloading)
                   : GestureDetector(
                       onTap: () {
-                        //! HIT API HERE
                         masjidTimeController.updatetimings(
                           fajar: fajarController.text,
                           tabController: widget.tabController,

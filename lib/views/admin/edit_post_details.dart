@@ -28,22 +28,16 @@ class _EditPostDetailsState extends State<EditPostDetails> {
   final ImagePicker picker = ImagePicker();
   ImageProvider _getImageProvider(dynamic item) {
     if (item is String) {
-      // If it's a String, assume it's a network image URL
       return NetworkImage(item);
     } else if (item is File) {
-      // If it's a File, use FileImage
       return FileImage(item);
     } else {
-      // Handle other cases if needed
       return const AssetImage('path/to/placeholder_image.jpg');
     }
   }
 
   void pickMultipleImages() async {
     try {
-      // setState(() {
-      //   isLoading = true;
-      // });
       final result = await picker.pickImage(source: ImageSource.gallery);
       if (result != null) {
         tempList.add(
@@ -51,14 +45,10 @@ class _EditPostDetailsState extends State<EditPostDetails> {
         );
         setState(() {});
       }
-      // setState(() {
-      //   isLoading = false;
-      // });
     } catch (e) {
       if (kDebugMode) {
         print(e);
       }
-      // isLoading = false;
     }
   }
 

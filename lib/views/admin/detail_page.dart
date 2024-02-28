@@ -70,18 +70,18 @@ class _DetailPageState extends State<DetailPage> {
                         .caretakerloginmodel.value.data?.mosque?.zuhr ??
                     "",
 
-                // iqama: "7:30 Am",
+               
                 prayer: "Dhuhar",
               ),
               PrayerIqamaWidget(
                 iqama: authcontroller
                         .caretakerloginmodel.value.data?.mosque?.asar ??
                     "",
-                // iqama: "7:30 Am",
+               
                 prayer: "Asar",
               ),
               PrayerIqamaWidget(
-                // iqama: "7:30 Am",
+               
                 iqama: authcontroller
                         .caretakerloginmodel.value.data?.mosque?.maghrib ??
                     "",
@@ -91,14 +91,14 @@ class _DetailPageState extends State<DetailPage> {
                 iqama: authcontroller
                         .caretakerloginmodel.value.data?.mosque?.esha ??
                     "",
-                // iqama: "7:30 Am",
+               
                 prayer: "Isha",
               ),
               PrayerIqamaWidget(
                 iqama: authcontroller
                         .caretakerloginmodel.value.data?.mosque?.jummah ??
                     "",
-                // iqama: "7:30 Am",
+               
                 prayer: "Jummah",
               ),
             ],

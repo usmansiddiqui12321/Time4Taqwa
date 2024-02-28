@@ -29,7 +29,6 @@ class _DonationPageState extends State<DonationPage> {
           child: GestureDetector(
             onTap: () {
               scaffoldKey.currentState?.openDrawer();
-              // Scaffold.of(context).openDrawer();
             },
             child: Image(
                 height: 24.h,
@@ -62,9 +61,6 @@ class _DonationPageState extends State<DonationPage> {
                     mainAxisExtent: 275.h,
                     mainAxisSpacing: 10.w,
                     crossAxisCount: 2),
-                // physics: const BouncingScrollPhysics(),
-                // shrinkWrap: true,
-                // itemCount: 3,
                 itemBuilder: (context, index) {
                   var data = donationController
                       .getalldonationmodel.value.data?.donations?[index];
@@ -86,8 +82,6 @@ class _DonationPageState extends State<DonationPage> {
                         ));
                       },
                       child: Container(
-                        // height: 250.h,
-                        // width: Get.width,
                         decoration: BoxDecoration(
                           color: const Color.fromARGB(255, 34, 44, 79),
                           borderRadius: BorderRadius.circular(20.r),
@@ -145,8 +139,6 @@ class _DonationPageState extends State<DonationPage> {
                             ).paddingSymmetric(horizontal: 10.w),
 
                             20.h.verticalSpace,
-                            // const Text("Rs 2000left")
-                            //     .paddingSymmetric(horizontal: 10.w)
 
                             const Text(
                               maxLines: 1,

@@ -57,10 +57,8 @@ class _SignUpPageState extends State<SignUpPage> {
                   keyboardType: TextInputType.name,
                   textInputAction: TextInputAction.next,
                 ),
-                // Email Field.
 
                 const SizedBox(height: 15),
-                // Email Field.
                 AuthField(
                   title: 'Email Address',
                   hintText: 'Enter your email address',
@@ -140,7 +138,6 @@ class _SignUpPageState extends State<SignUpPage> {
                         color: AppColors.lightTextColor,
                         onTap: () {
                           if (_formKey.currentState!.validate()) {
-                            //! login
                             authController.signup(
                                 username: nameController.text,
                                 cpassword: cpasswordController.text,

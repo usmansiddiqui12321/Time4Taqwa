@@ -122,8 +122,6 @@ class _LoginPageState extends State<LoginPage> {
                                   password: _passwordController.text);
                             }
                           }
-                          //! Remove this
-                          // Get.to(() => const NavigatorPage());
                         },
                         text: 'Sign In',
                       );

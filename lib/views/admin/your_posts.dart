@@ -1,7 +1,6 @@
 import 'package:time4taqwa/controllers/donation_controller.dart';
 import 'package:time4taqwa/exportall.dart';
 import 'package:time4taqwa/views/admin/admin_post_detail_page.dart';
-// import 'package:time4taqwa/views/admin/admin_post_detail_page.dart';
 
 class YourPosts extends StatefulWidget {
   final TabController tabController;
@@ -52,9 +51,6 @@ class _YourPostsState extends State<YourPosts> {
                     mainAxisExtent: 275.h,
                     mainAxisSpacing: 10.w,
                     crossAxisCount: 2),
-                // physics: const BouncingScrollPhysics(),
-                // shrinkWrap: true,
-                // itemCount: 3,
                 itemBuilder: (context, index) {
                   var data = donationController
                       .getdonationmodel.value.data?.donations?[index];
@@ -81,9 +77,6 @@ class _YourPostsState extends State<YourPosts> {
                                       .images as List,
                                   amount: amount,
                                   description: description,
-                                  // imageUrl: donationController.getdonationmodel.value
-                                  //         .data?.donations?[index].images?[0] ??
-                                  //     "",
                                 ))!
                             .whenComplete(() {
                           donationController.getDonationsbyEmail(
@@ -91,8 +84,6 @@ class _YourPostsState extends State<YourPosts> {
                         });
                       },
                       child: Container(
-                        // height: 250.h,
-                        // width: Get.width,
                         decoration: BoxDecoration(
                           color: const Color.fromARGB(255, 34, 44, 79),
                           borderRadius: BorderRadius.circular(20.r),
@@ -150,8 +141,6 @@ class _YourPostsState extends State<YourPosts> {
                             ).paddingSymmetric(horizontal: 10.w),
 
                             20.h.verticalSpace,
-                            // const Text("Rs 2000left")
-                            //     .paddingSymmetric(horizontal: 10.w)
 
                             const Text(
                               maxLines: 1,

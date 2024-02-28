@@ -87,7 +87,6 @@ class PostService {
     request.fields['email'] = email;
     request.fields['description'] = description;
 
-    //! ADD Headers
     // request.headers.addAll(header);
 
     try {

@@ -118,7 +118,6 @@ class _AdminLoginPageState extends State<AdminLoginPage> {
                             authController.adminlogin(
                                 email: _emailController.text,
                                 password: _passwordController.text);
-                            //! Remove this
                             log("email: ${_emailController.text}");
                             log("password: ${_passwordController.text}");
                           }

@@ -75,8 +75,6 @@ class _VerificationScreenState extends State<VerificationScreen> {
           onTap: () {
             Get.offAll(() => const LoginPage());
             if (_formKey.currentState!.validate()) {
-              //! Forget Password
-              //! authController.login();
             }
           },
           text: 'Verify',

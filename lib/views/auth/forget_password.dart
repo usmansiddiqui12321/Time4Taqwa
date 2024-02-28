@@ -68,7 +68,6 @@ class _ForgetPasswordState extends State<ForgetPassword> {
           onTap: () {
             Get.to(() => const VerificationScreen());
             if (_formKey.currentState!.validate()) {
-              //! Forget Password
               // authController.login();
             }
           },
