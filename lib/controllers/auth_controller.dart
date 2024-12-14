@@ -12,158 +12,123 @@ class AuthController extends GetxController {
   bool loading = false;
   Rx<UserLoginModel> userloginmodel = UserLoginModel().obs;
   Rx<CareTakerLoginModel> caretakerloginmodel = CareTakerLoginModel().obs;
-  setloading({required bool value}) {
+
+  void setLoading({required bool value}) {
     loading = value;
     update();
   }
 
+  Future<void> _handleResponse(
+      http.Response response, Function(dynamic) onSuccess) async {
+    final jsonData = jsonDecode(response.body);
+
+    switch (response.statusCode) {
+      case 200:
+      case 201:
+        onSuccess(jsonData);
+        break;
+      case 400:
+      case 401:
+      case 403:
+        throw jsonData['message'] ?? 'Authentication error';
+      case 404:
+        throw 'Resource not found';
+      case 500:
+        throw 'Server error, please try again later';
+      default:
+        throw 'Unexpected error occurred (Status: ${response.statusCode})';
+    }
+  }
+
   Future<void> login({required String email, required String password}) async {
     try {
-      setloading(value: true);
-      var headers = {
-        'Content-Type': 'application/json',
-      };
-      var body = {"email": email, "password": password};
-      var response = await http.post(
-        Uri.parse(AppUrls.userloginurl),
-        headers: headers,
-        body: jsonEncode(body), // Convert the map to a JSON string
-      );
+      setLoading(value: true);
 
-      final jsonData = jsonDecode(response.body);
-      if (response.statusCode == 200) {
+      var headers = {'Content-Type': 'application/json'};
+      var body = jsonEncode({"email": email, "password": password});
+      var response = await http.post(Uri.parse(AppUrls.userloginurl),
+          headers: headers, body: body);
+
+      await _handleResponse(response, (jsonData) {
         userloginmodel.value = UserLoginModel.fromJson(jsonData);
         Get.to(() => const NavigatorPage());
         log('Response data: $jsonData');
-        setloading(value: false);
         CustomWidgets.customsnackbar(
             isError: false, message: 'Logged In Successfully');
-        //  UserLoginModel.fromJson(jsonData);
-      } else {
-        setloading(value: false);
-
-        // Handle authentication error
-        // CustomWidgets.customsnackbar(
-        //     isError: true, message: jsonData['message']);
-        log('Authentication error: ${response.statusCode}, Message: ${jsonData['message']}');
-        throw jsonData['message'];
-      }
+      });
     } on SocketException {
       CustomWidgets.customsnackbar(
           message: "No internet connection", isError: true);
     } catch (error) {
-      setloading(value: false);
       CustomWidgets.customsnackbar(isError: true, message: error.toString());
-      log('Error during authentication: $error');
+      log('Error during login: $error');
     } finally {
-      setloading(value: false);
+      setLoading(value: false);
     }
-    return;
   }
 
-  Future<void> signup(
-      {required String email,
-      required String password,
-      required String username,
-      required String cpassword}) async {
+  Future<void> signup({
+    required String email,
+    required String password,
+    required String username,
+    required String cpassword,
+  }) async {
     try {
-      setloading(value: true);
+      setLoading(value: true);
 
-      var headers = {
-        'Content-Type': 'application/json',
-      };
-      var body = {
+      var headers = {'Content-Type': 'application/json'};
+      var body = jsonEncode({
         "username": username,
         "email": email,
         "password": password,
         "passwordConfirm": cpassword,
-      };
-      var response = await http.post(
-        Uri.parse(AppUrls.signupurl),
-        headers: headers,
-        body: jsonEncode(body), // Convert the map to a JSON string
-      );
+      });
+      var response = await http.post(Uri.parse(AppUrls.signupurl),
+          headers: headers, body: body);
 
-      final jsonData = jsonDecode(response.body);
-      if (response.statusCode == 201 || response.statusCode == 200) {
-        setloading(value: false);
+      await _handleResponse(response, (jsonData) {
         userloginmodel.value = UserLoginModel.fromJson(jsonData);
-
-        // Successfully authenticated and received data
-        // Do something with responseData
         Get.to(() => const NavigatorPage());
         log('Response data: $jsonData');
         CustomWidgets.customsnackbar(
             isError: false, message: 'Signed Up Successfully');
-      } else {
-        setloading(value: false);
-
-        // Handle authentication error
-        // CustomWidgets.customsnackbar(
-        //   isError: true,
-        //   message: "Error : ${response.statusCode}",
-        // );
-
-        log('Authentication error: ${response.statusCode}, Message: ${jsonData['status']}');
-
-        throw jsonData['message'];
-      }
+      });
     } on SocketException {
       CustomWidgets.customsnackbar(
           message: "No internet connection", isError: true);
     } catch (error) {
-      setloading(value: false);
-
-      // Handle general error, e.g., network error
       CustomWidgets.customsnackbar(isError: true, message: error.toString());
-      log('Error during authentication: $error');
+      log('Error during signup: $error');
     } finally {
-      setloading(value: false);
+      setLoading(value: false);
     }
   }
 
   Future<void> adminlogin(
       {required String email, required String password}) async {
     try {
-      setloading(value: true);
-      var headers = {
-        'Content-Type': 'application/json',
-      };
-      var body = {
-        "email": email,
-        "password": password,
-      };
-      var response = await http.post(
-        Uri.parse(AppUrls.adminloginurl),
-        headers: headers,
-        body: json.encode(body), // Convert the map to a JSON string
-      );
+      setLoading(value: true);
 
-      final jsonData = json.decode(response.body);
-      if (response.statusCode == 200) {
+      var headers = {'Content-Type': 'application/json'};
+      var body = jsonEncode({"email": email, "password": password});
+      var response = await http.post(Uri.parse(AppUrls.adminloginurl),
+          headers: headers, body: body);
+
+      await _handleResponse(response, (jsonData) {
         caretakerloginmodel.value = CareTakerLoginModel.fromJson(jsonData);
         Get.to(() => const AdminHomePage());
         log('Response data: $jsonData');
-        setloading(value: false);
         CustomWidgets.customsnackbar(
             isError: false, message: 'Logged In Successfully');
-      } else {
-        setloading(value: false);
-
-        // CustomWidgets.customsnackbar(
-        //     isError: true, message: jsonData['message']);
-        log('Authentication error: ${response.statusCode}, Message: ${jsonData['message']}');
-        throw jsonData['message'];
-      }
+      });
     } on SocketException {
       CustomWidgets.customsnackbar(
           message: "No internet connection", isError: true);
     } catch (error) {
-      setloading(value: false);
       CustomWidgets.customsnackbar(isError: true, message: error.toString());
-      log('Error during authentication: $error');
+      log('Error during admin login: $error');
     } finally {
-      setloading(value: false);
+      setLoading(value: false);
     }
   }
 }
