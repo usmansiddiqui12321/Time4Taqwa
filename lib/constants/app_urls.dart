@@ -1,5 +1,5 @@
 class AppUrls {
-  static const String initialurl = "https://tame-shirt-eel.cyclic.app/";
+  static const String initialurl = "https://jamat-times.netlify.app/";
   static const String userloginurl = "${initialurl}api/users/login";
   static const String adminloginurl = "${initialurl}api/caretaker/login";
   static const String signupurl = "${initialurl}api/users/signup";

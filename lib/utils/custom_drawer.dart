@@ -91,7 +91,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                     ),
                     trailing: const Icon(Icons.arrow_forward),
                     onTap: () {
-                      Get.offAll(const LoginPage());
+                      Get.offAll(() => const LoginPage());
                     },
                   ),
                 ],

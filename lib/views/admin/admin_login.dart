@@ -22,7 +22,7 @@ class _AdminLoginPageState extends State<AdminLoginPage> {
           leading: BackButton(
             color: AppColors.whitecolor,
             onPressed: () {
-              Get.offAll(const SegregationPage());
+              Get.offAll(() => const SegregationPage());
             },
           )),
       body: SingleChildScrollView(
